@@ -105,7 +105,7 @@ button{cursor:pointer}
 /* ---------- Formulario ---------- */
 .tipo-btn{position:relative;min-height:88px;border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;text-align:left;border:2px solid var(--borde);background:var(--blanco);transition:border-color .15s, background .15s}
 .tipo-btn:hover{border-color:var(--verde-borde)}
-.tipo-btn .cond{font-size:20px;line-height:1.05}
+.tipo-btn .cond{font-size:26px;line-height:1.05}
 .tipo-btn small{font-size:13px;color:var(--gris)}
 .tipo-btn .check{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:var(--verde-osc);display:none;align-items:center;justify-content:center}
 .tipo-btn.sel{border-color:var(--verde-osc);background:var(--verde-claro)}
@@ -116,6 +116,9 @@ button{cursor:pointer}
 .btn-escanear .ico{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .btn-escanear b{display:block;font-size:17px}
 .btn-escanear span{font-size:13px;color:#C9C4BA}
+.mini-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0}
+.mini-wrap small{font-size:11px;font-weight:700;letter-spacing:.08em;color:#B7D97F}
+.mini-etq{display:block;border-radius:5px;box-shadow:0 2px 6px rgba(0,0,0,.35)}
 label.campo{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:#4A453E}
 label.campo input{height:52px;border:1.5px solid var(--borde);border-radius:12px;padding:0 14px;font-size:19px;font-weight:600;background:var(--suave);width:100%;transition:border-color .15s, background .15s}
 label.campo input::placeholder{color:#BDB7AC;font-weight:500}
@@ -316,16 +319,16 @@ label.campo input:focus{outline:none;border-color:var(--verde);background:var(--
         <div class="grid2">
           <button class="tipo-btn" data-tipo="GLAZE">
             <span class="check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg></span>
-            <span class="cond">CONFLEX GLAZE</span><small>70 g/m²</small></button>
-          <button class="tipo-btn" data-tipo="GLAZE_PS">
+            <span class="cond">70 g/m²</span><small>CONFLEX GLAZE · 2×440</small></button>
+          <button class="tipo-btn" data-tipo="GLAZE_110">
             <span class="check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg></span>
-            <span class="cond">CONFLEX GLAZE PS</span><small>50 g/m²</small></button>
+            <span class="cond">110 g/m²</span><small>CONFLEX GLAZE · 2×420</small></button>
         </div>
       </div>
 
       <button class="btn-escanear" id="btnEscanear">
-        <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"></path><path d="M7 8v8M10 8v8M13 8v8M16 8v8"></path></svg></div>
-        <div><b>Escanear código Billerud</b><span>Llena pedido y reel. Si no lee, se digitan abajo</span></div>
+        
+        <div style="flex:1;min-width:0"><b>Escanear código Billerud</b><span>Usa el código pequeño del <strong style="color:#B7D97F;font-weight:700">centro de la etiqueta</strong>, el que dice "Customer Barcode 2". Llena pedido y reel</span></div><div class="mini-wrap"><svg class="mini-etq" width="66" height="88" viewBox="0 0 66 88" role="img" aria-label="Etiqueta Billerud con el código del centro resaltado"><rect x="1" y="1" width="64" height="86" rx="4" fill="#fff"></rect><rect x="6" y="7" width="22" height="3" rx="1" fill="#80AD36"></rect><line x1="6" y1="20" x2="24" y2="20" stroke="#8A857C" stroke-width="6" stroke-dasharray="1 1 2 1 1 2"></line><line x1="40" y1="20" x2="60" y2="20" stroke="#8A857C" stroke-width="6" stroke-dasharray="1 1 2 1 1 2"></line><rect x="6" y="28" width="30" height="3" rx="1" fill="#C9C4BA"></rect><rect x="6" y="34" width="12" height="3" rx="1" fill="#C9C4BA"></rect><rect x="18" y="39" width="30" height="16" rx="3" fill="#EEF5E3" stroke="#80AD36" stroke-width="2.2"></rect><line x1="22" y1="47" x2="44" y2="47" stroke="#1F1D1A" stroke-width="8" stroke-dasharray="1 1 2 1 1 2"></line><rect x="6" y="59" width="54" height="3" rx="1" fill="#C9C4BA"></rect><line x1="8" y1="73" x2="58" y2="73" stroke="#D6D1C7" stroke-width="12" stroke-dasharray="2 1 1 2 3 1"></line></svg><small>ESTE</small></div>
       </button>
 
       <div class="tarjeta">
@@ -333,10 +336,9 @@ label.campo input:focus{outline:none;border-color:var(--verde);background:var(--
         <div class="grid2">
           <label class="campo">Pedido Billerud<input id="fPedido" inputmode="numeric" autocomplete="off" placeholder="5076002"></label>
           <label class="campo">Reel N°<input id="fReel" inputmode="numeric" autocomplete="off" placeholder="0003"></label>
-          <label class="campo">Ancho c/u (mm)<input id="fAncho" inputmode="decimal" autocomplete="off" placeholder="440"></label>
-          <label class="campo">Peso total (kg)<input id="fPeso" inputmode="decimal" autocomplete="off" placeholder="593"></label>
+          <label class="campo" style="grid-column:span 2">Peso total (kg) · "Weight kg" de la etiqueta<input id="fPeso" inputmode="decimal" autocomplete="off" placeholder="593"></label>
         </div>
-        <div class="nota">El peso de cada rollo se calcula solo: total ÷ 2.</div>
+        <div class="nota">El ancho sale solo según el tipo: <b>70 g/m² → 440 mm</b> y <b>110 g/m² → 420 mm</b> por rollo. Cada rollo pesa el total ÷ 2.</div>
       </div>
 
       <div class="tarjeta resumen">
@@ -410,7 +412,7 @@ label.campo input:focus{outline:none;border-color:var(--verde);background:var(--
     <b>Escanear código Billerud</b>
   </div>
   <div id="lector"></div>
-  <div class="scanner-msg" id="scannerMsg">Apunta al código de barras pequeño (11 dígitos, ej. 50760020003)</div>
+  <div class="scanner-msg" id="scannerMsg">Apunta al código pequeño del CENTRO de la etiqueta ("Customer Barcode 2"), al lado del gramaje</div>
 </div>
 
 <div class="cargando oculto" id="cargando"><div class="spinner"></div>Cargando…</div>
@@ -424,8 +426,8 @@ label.campo input:focus{outline:none;border-color:var(--verde);background:var(--
 const API_URL = '/api/action';
 const CLAVE_SESION = 'rotulos_rollos_sesion';
 const TIPOS = {
-  GLAZE:    { material: 'CONFLEX GLAZE',    gramaje: 70 },
-  GLAZE_PS: { material: 'CONFLEX GLAZE PS', gramaje: 50 }
+  GLAZE:     { material: 'CONFLEX GLAZE', gramaje: 70,  ancho: 440 },
+  GLAZE_110: { material: 'CONFLEX GLAZE', gramaje: 110, ancho: 420 }
 };
 
 let sesion = null;
@@ -564,9 +566,9 @@ document.querySelectorAll('[data-actualizar]').forEach((b) => b.addEventListener
 }));
 
 async function limpiarRegistro() {
-  const hayDatos = ['fPedido', 'fReel', 'fAncho', 'fPeso'].some((id) => $(id).value.trim()) || tipoSel;
+  const hayDatos = ['fPedido', 'fReel', 'fPeso'].some((id) => $(id).value.trim()) || tipoSel;
   if (hayDatos && !(await preguntar('Actualizar', '¿Borrar los datos digitados y empezar de nuevo?'))) return;
-  ['fPedido', 'fReel', 'fAncho', 'fPeso'].forEach((id) => { $(id).value = ''; });
+  ['fPedido', 'fReel', 'fPeso'].forEach((id) => { $(id).value = ''; });
   tipoSel = null;
   document.querySelectorAll('.tipo-btn').forEach((x) => x.classList.remove('sel'));
   actualizarResumen();
@@ -632,11 +634,11 @@ document.querySelectorAll('.tipo-btn').forEach((b) => b.addEventListener('click'
   document.querySelectorAll('.tipo-btn').forEach((x) => x.classList.toggle('sel', x === b));
   actualizarResumen();
 }));
-['fPedido', 'fReel', 'fAncho', 'fPeso'].forEach((id) => $(id).addEventListener('input', actualizarResumen));
+['fPedido', 'fReel', 'fPeso'].forEach((id) => $(id).addEventListener('input', actualizarResumen));
 
 function actualizarResumen() {
   const total = num($('fPeso').value);
-  const ancho = num($('fAncho').value);
+  const ancho = tipoSel ? TIPOS[tipoSel].ancho : 0;
   const c = total > 0 ? kg(Math.round((total / 2) * 10) / 10) + ' kg' : '— kg';
   $('resPeso1').textContent = c;
   $('resPeso2').textContent = c;
@@ -653,8 +655,6 @@ function validarFormulario() {
   const pedido = $('fPedido').value.trim();
   if (!/^\d{5,8}(-\d{1,2})?$/.test(pedido)) return 'Pedido inválido. Ej: 5076002';
   if (!/^\d{1,5}$/.test($('fReel').value.trim())) return 'Reel inválido. Ej: 0003';
-  const ancho = num($('fAncho').value);
-  if (!(ancho > 0)) return 'Digita el ancho.';
   const peso = num($('fPeso').value);
   if (!(peso > 0)) return 'Digita el peso total.';
   return null;
@@ -669,7 +669,7 @@ $('btnRegistrar').addEventListener('click', async () => {
     tipo: tipoSel,
     pedido: $('fPedido').value.trim(),
     reel: $('fReel').value.trim(),
-    ancho: num($('fAncho').value),
+    ancho: t.ancho,
     pesoTotal: num($('fPeso').value)
   };
   const pesoC = kg(Math.round((datos.pesoTotal / 2) * 10) / 10);
@@ -740,7 +740,7 @@ async function abrirScanner() {
     await cargarScript('https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js');
     cargando(false);
     $('scanner').classList.remove('oculto');
-    $('scannerMsg').textContent = 'Apunta al código de barras pequeño (11 dígitos, ej. 50760020003)';
+    $('scannerMsg').textContent = 'Apunta al código pequeño del CENTRO de la etiqueta ("Customer Barcode 2"), al lado del gramaje';
     const F = Html5QrcodeSupportedFormats;
     lectorQR = new Html5Qrcode('lector', {
       formatsToSupport: [F.CODE_128, F.ITF, F.CODE_39, F.EAN_13],
@@ -762,7 +762,7 @@ async function abrirScanner() {
 function alLeer(texto) {
   const d = String(texto || '').replace(/\D/g, '');
   if (d.length !== 11) {
-    $('scannerMsg').textContent = `Leí ${d.length} dígitos. Ese no es: busca el código pequeño de 11 dígitos.`;
+    $('scannerMsg').textContent = `Leí ${d.length} dígitos. Ese no es: usa el código pequeño del centro de la etiqueta ("Customer Barcode 2").`;
     return;
   }
   $('fPedido').value = d.slice(0, 7);
@@ -770,7 +770,7 @@ function alLeer(texto) {
   if (navigator.vibrate) navigator.vibrate(80);
   cerrarScanner();
   actualizarResumen();
-  $('fAncho').focus();
+  $('fPeso').focus();
 }
 
 async function cerrarScanner() {

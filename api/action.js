@@ -15,8 +15,8 @@ const SA_KEY = (process.env.GOOGLE_PRIVATE_KEY || '').replace(/\\n/g, '\n');
 const CONSECUTIVO_INICIAL = 90001;
 
 const TIPOS = {
-  GLAZE:    { material: 'CONFLEX GLAZE',    gramaje: 70 },
-  GLAZE_PS: { material: 'CONFLEX GLAZE PS', gramaje: 50 }
+  GLAZE:     { material: 'CONFLEX GLAZE', gramaje: 70,  ancho: 440 },
+  GLAZE_110: { material: 'CONFLEX GLAZE', gramaje: 110, ancho: 420 }
 };
 
 // Hoja "Rollos" — columnas A..T (fila 1 = encabezados)
@@ -151,8 +151,8 @@ async function registrar(usuario, d) {
   if (!/^\d{1,5}$/.test(reelTxt)) throw new Error('Reel inválido. Ej: 0003');
   const reel = reelTxt.padStart(4, '0');
 
-  const ancho = numero(d.ancho);
-  if (!(ancho > 0)) throw new Error('Digita el ancho.');
+  // Ancho fijo por tipo de rollo (70 g/m² → 440 mm, 110 g/m² → 420 mm)
+  const ancho = tipo.ancho;
 
   const pesoTotal = numero(d.pesoTotal);
   if (!(pesoTotal > 0)) throw new Error('Digita el peso total.');
