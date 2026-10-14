@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rótulos Rollos · Tecnipapel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+:root{
+  --verde:#80AD36; --verde-osc:#4E7A1E; --verde-claro:#EEF5E3;
+  --fondo:#F1EFEA; --blanco:#FFFFFF; --texto:#1F1D1A; --gris:#6B655B; --borde:#DDD8CE; --suave:#F7F5F0;
+  --si:#2E8B3E; --no:#C62828; --ambar-f:#FDECC8; --ambar-t:#8A4B00;
+  --sombra:0 2px 8px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--fondo);color:var(--texto);font-family:'Barlow',system-ui,sans-serif;font-size:16px}
+button,input{font:inherit}
+button{cursor:pointer}
+.oculto{display:none!important}
+.cond{font-family:'Barlow Condensed','Barlow',sans-serif;font-weight:700}
+
+.app{max-width:1100px;margin:0 auto;min-height:100vh}
+.pantalla{display:none}
+.pantalla.activa{display:block}
+
+/* Barra superior */
+.barra{background:var(--blanco);box-shadow:0 1px 0 #E2DED6;position:sticky;top:0;z-index:20}
+.barra-in{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
+.btn-volver{height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--borde);background:var(--blanco);display:flex;align-items:center;gap:6px;font-weight:600;color:var(--texto)}
+.barra-tit{flex:1;min-width:0}
+.barra-tit h1{margin:0;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;line-height:1.1}
+.barra-tit p{margin:0;font-size:13px;color:var(--gris)}
+.chip{font-size:12px;font-weight:600;background:var(--fondo);padding:6px 10px;border-radius:999px;white-space:nowrap}
+.logo{height:28px;width:auto;display:block}
+
+.contenido{padding:16px;display:flex;flex-direction:column;gap:14px}
+.tarjeta{background:var(--blanco);border-radius:16px;padding:16px;box-shadow:var(--sombra);display:flex;flex-direction:column;gap:12px}
+.etq{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--gris)}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+
+/* Login */
+.login{max-width:360px;margin:0 auto;padding:48px 16px;text-align:center}
+.login .sub{font-size:12px;color:var(--gris);letter-spacing:1px;margin:10px 0 0}
+.pin-dots{display:flex;gap:14px;justify-content:center;margin:24px 0 10px}
+.pin-dots span{width:16px;height:16px;border-radius:50%;border:2px solid var(--verde-osc)}
+.pin-dots span.lleno{background:var(--verde-osc)}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.pin-pad button{height:64px;border-radius:16px;border:none;background:var(--blanco);box-shadow:var(--sombra);font-size:24px;font-weight:600;color:var(--texto)}
+.pin-pad button.sec{background:transparent;box-shadow:none;color:var(--gris);font-size:15px}
+.error{color:var(--no);font-weight:600;font-size:14px;min-height:20px}
+
+/* Home */
+.menu-btn{display:flex;align-items:center;gap:14px;background:var(--blanco);border:none;border-radius:16px;padding:20px 18px;box-shadow:var(--sombra);text-align:left;width:100%;color:var(--texto)}
+.menu-btn .ico{width:52px;height:52px;border-radius:14px;background:var(--verde-claro);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.menu-btn b{display:block;font-size:19px}
+.menu-btn span{font-size:14px;color:var(--gris)}
+.badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:700}
+.badge.pend{background:var(--ambar-f);color:var(--ambar-t)}
+.badge.imp{background:var(--verde-claro);color:#3B5F14}
+
+/* Formulario */
+.tipo-btn{min-height:84px;border-radius:12px;padding:10px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;text-align:left;border:2px solid var(--borde);background:var(--blanco);color:var(--texto)}
+.tipo-btn .cond{font-size:20px;line-height:1.05}
+.tipo-btn small{font-size:13px}
+.tipo-btn.sel{border-color:var(--verde-osc);background:var(--verde-claro);color:#2F4D10}
+.btn-escanear{background:var(--texto);color:#fff;border:none;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;text-align:left;width:100%}
+.btn-escanear b{display:block;font-size:16px}
+.btn-escanear span{font-size:13px;color:#C9C4BA}
+label.campo{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:#4A453E}
+label.campo input{height:48px;border:1px solid var(--borde);border-radius:10px;padding:0 12px;font-size:18px;background:#FAF9F6;color:var(--texto);width:100%}
+label.campo input:focus{outline:2px solid var(--verde);border-color:var(--verde)}
+.nota{font-size:13px;color:var(--gris)}
+.resumen{border-top:4px solid var(--verde)}
+.res-fila{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--suave);border-radius:10px}
+.res-fila .cond{font-size:24px}
+.res-fila b{font-size:18px}
+.btn-prim{height:56px;border:none;border-radius:12px;background:var(--verde-osc);color:#fff;font-weight:700;font-size:18px;width:100%}
+.btn-prim:disabled{opacity:.5}
+
+/* Historial */
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tab{height:44px;padding:0 14px;border-radius:10px;border:2px solid var(--borde);background:var(--blanco);font-weight:600;font-size:14px;color:var(--texto)}
+.tab.sel{background:var(--texto);border-color:var(--texto);color:#fff}
+.buscar{flex:1 1 220px;height:44px;border:1px solid var(--borde);border-radius:10px;padding:0 12px;background:var(--blanco);font-size:15px}
+.btn-imprimir{height:44px;padding:0 16px;border:none;border-radius:10px;background:var(--verde-osc);color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
+.btn-imprimir:disabled{opacity:.45}
+.btn-link{background:none;border:none;color:var(--verde-osc);font-weight:700;font-size:14px;padding:8px 4px}
+.lista{display:flex;flex-direction:column;gap:10px}
+.item{display:flex;gap:12px;align-items:flex-start;background:var(--blanco);border-radius:14px;padding:14px;box-shadow:var(--sombra);cursor:pointer;border:2px solid transparent}
+.item.sel{border-color:var(--verde-osc)}
+.item input{width:22px;height:22px;margin-top:4px;accent-color:var(--verde-osc);flex-shrink:0}
+.item-c{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.item-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.item-top .cond{font-size:22px}
+.item-top small{font-family:'Barlow',sans-serif;font-weight:500;font-size:13px;color:var(--gris)}
+.item-mat{font-weight:600}
+.item-meta{font-size:13px;color:var(--gris)}
+.vacio{text-align:center;color:var(--gris);padding:40px 16px}
+
+/* Modal */
+.modal-fondo{position:fixed;inset:0;background:rgba(20,18,15,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:100}
+.modal{background:var(--blanco);border-radius:18px;padding:20px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:14px}
+.modal h2{margin:0;font-size:20px}
+.modal .cuerpo{font-size:16px;line-height:1.4}
+.btn-si,.btn-no{height:56px;border:none;border-radius:12px;color:#fff;font-weight:700;font-size:20px}
+.btn-si{background:var(--si)} .btn-no{background:var(--no)}
+
+/* Escáner */
+.scanner{position:fixed;inset:0;background:#000;z-index:90;display:flex;flex-direction:column}
+.scanner-top{padding:12px 16px;display:flex;align-items:center;gap:12px;color:#fff}
+.scanner-top .btn-volver{background:#fff}
+#lector{flex:1;width:100%}
+#lector video{object-fit:cover}
+.scanner-msg{color:#fff;text-align:center;padding:14px 16px 24px;font-size:15px}
+
+.cargando{position:fixed;inset:0;background:rgba(241,239,234,.7);z-index:95;display:flex;align-items:center;justify-content:center;font-weight:700}
+
+/* ---------- Impresión ---------- */
+#zonaImpresion{display:none}
+@page{size:letter;margin:0.3in}
+@media print{
+  body{background:#fff}
+  .app,.modal-fondo,.scanner,.cargando{display:none!important}
+  #zonaImpresion{display:block}
+  .hoja{width:7.9in;height:10.4in;page-break-after:always;break-after:page;display:flex;flex-direction:column;color:#000;font-family:'Barlow',sans-serif}
+  .hoja:last-child{page-break-after:auto;break-after:auto}
+  .rot{height:5.2in;padding:0.3in 0.35in;display:flex;flex-direction:column;gap:0.12in;box-sizing:border-box}
+  .rot.arriba{border-bottom:2px dashed #000}
+  .rot-head{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #000;padding-bottom:0.08in}
+  .rot-head .cond{font-size:20pt;letter-spacing:.04em}
+  .rot-pos{font-size:13pt;font-weight:700;border:2px solid #000;padding:2pt 9pt;border-radius:5pt}
+  .rot-cuerpo{display:flex;gap:0.3in;flex:1}
+  .rot-datos{flex:1;display:flex;flex-direction:column;gap:0.1in}
+  .rot-lbl{font-size:10.5pt;font-weight:700;letter-spacing:.08em}
+  .rot-num{font-size:66pt;line-height:.95}
+  .rot-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.08in 0.2in}
+  .rot-grid > div{border-top:1px solid #000;padding-top:3pt;display:flex;flex-direction:column}
+  .rot-grid .ancho2{grid-column:span 2}
+  .rot-val{font-size:28pt;line-height:1.05}
+  .rot-val.mat{font-size:26pt}
+  .rot-qr{width:2.3in;display:flex;flex-direction:column;align-items:center;gap:4pt}
+  .rot-qr svg{width:2.3in;height:2.3in;display:block}
+  .rot-qr code{font-size:10pt;text-align:center;word-break:break-all}
+  .rot-pie{display:flex;justify-content:space-between;font-size:11.5pt;border-top:1px solid #000;padding-top:4pt}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ========== LOGIN ========== -->
+  <section id="sLogin" class="pantalla activa">
+    <div class="login">
+      <img src="assets/logo-tecnipapel.png" alt="Tecnipapel" class="logo" style="margin:0 auto;height:34px" onerror="this.style.display='none'">
+      <p class="sub">RÓTULOS DE ROLLOS · BILLERUD</p>
+      <p style="font-size:13px;color:var(--gris);margin:28px 0 0">Ingresa tu PIN</p>
+      <div class="pin-dots" id="pinDots"><span></span><span></span><span></span><span></span></div>
+      <div class="error" id="loginError"></div>
+      <div class="pin-pad" id="pinPad">
+        <button data-n="1">1</button><button data-n="2">2</button><button data-n="3">3</button>
+        <button data-n="4">4</button><button data-n="5">5</button><button data-n="6">6</button>
+        <button data-n="7">7</button><button data-n="8">8</button><button data-n="9">9</button>
+        <button class="sec" data-borrar aria-label="Borrar">⌫</button>
+        <button data-n="0">0</button>
+        <button class="sec" data-limpiar>C</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== HOME ========== -->
+  <section id="sHome" class="pantalla">
+    <div class="barra"><div class="barra-in">
+      <img src="assets/logo-tecnipapel.png" alt="Tecnipapel" class="logo" onerror="this.style.display='none'">
+      <div class="barra-tit"><h1>Rótulos de Rollos</h1><p>Tecnipapel · Billerud</p></div>
+      <span class="chip" id="chipUsuario"></span>
+      <button class="btn-volver" id="btnSalir">Salir</button>
+    </div></div>
+    <div class="contenido">
+      <button class="menu-btn" id="btnIrRegistro">
+        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4E7A1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3"></circle><path d="M12 3v6"></path></svg></div>
+        <div><b>Registrar rollo</b><span>En bodega: tipo, pedido, reel, ancho y peso</span></div>
+      </button>
+      <button class="menu-btn" id="btnIrHistorial">
+        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4E7A1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"></path><rect x="4" y="9" width="16" height="8" rx="2"></rect><path d="M7 14h10v7H7z"></path></svg></div>
+        <div><b>Historial e impresión</b><span id="homePend">Cargando…</span></div>
+      </button>
+    </div>
+  </section>
+
+  <!-- ========== REGISTRO ========== -->
+  <section id="sRegistro" class="pantalla">
+    <div class="barra"><div class="barra-in">
+      <button class="btn-volver" data-volver>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Volver</button>
+      <div class="barra-tit"><h1>Registrar rollo</h1><p>Un rollo padre = 2 rótulos</p></div>
+    </div></div>
+    <div class="contenido" style="max-width:560px;margin:0 auto">
+
+      <div class="tarjeta">
+        <div class="etq">1 · TIPO DE ROLLO</div>
+        <div class="grid2">
+          <button class="tipo-btn" data-tipo="GLAZE"><span class="cond">CONFLEX GLAZE</span><small>70 g/m²</small></button>
+          <button class="tipo-btn" data-tipo="GLAZE_PS"><span class="cond">CONFLEX GLAZE PS</span><small>50 g/m²</small></button>
+        </div>
+      </div>
+
+      <button class="btn-escanear" id="btnEscanear">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"></path><path d="M7 8v8M10 8v8M13 8v8M16 8v8"></path></svg>
+        <div><b>Escanear código Billerud</b><span>Llena pedido y reel. Si no lee, se digitan abajo</span></div>
+      </button>
+
+      <div class="tarjeta">
+        <div class="etq">2 · DATOS DEL ROLLO PADRE</div>
+        <div class="grid2">
+          <label class="campo">Pedido Billerud<input id="fPedido" inputmode="numeric" autocomplete="off" placeholder="5076002"></label>
+          <label class="campo">Reel N°<input id="fReel" inputmode="numeric" autocomplete="off" placeholder="0003"></label>
+          <label class="campo">Ancho c/u (mm)<input id="fAncho" inputmode="decimal" autocomplete="off" placeholder="440"></label>
+          <label class="campo">Peso total (kg)<input id="fPeso" inputmode="decimal" autocomplete="off" placeholder="593"></label>
+        </div>
+        <div class="nota">Ancho y peso total se digitan de la etiqueta. El peso de cada rollo = total ÷ 2.</div>
+      </div>
+
+      <div class="tarjeta resumen">
+        <div class="etq">3 · SE GENERAN 2 RÓTULOS</div>
+        <div class="res-fila"><span class="cond">Rollo -1</span><b id="resPeso1">— kg</b></div>
+        <div class="res-fila"><span class="cond">Rollo -2</span><b id="resPeso2">— kg</b></div>
+        <div class="nota" id="resMaterial">Selecciona el tipo de rollo.</div>
+      </div>
+
+      <button class="btn-prim" id="btnRegistrar">Registrar par de rollos</button>
+    </div>
+  </section>
+
+  <!-- ========== HISTORIAL ========== -->
+  <section id="sHistorial" class="pantalla">
+    <div class="barra"><div class="barra-in">
+      <button class="btn-volver" data-volver>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Volver</button>
+      <div class="barra-tit"><h1>Historial e impresión</h1><p id="histResumen">—</p></div>
+      <button class="btn-volver" id="btnRecargar" aria-label="Actualizar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"></path><path d="M21 3v5h-5"></path></svg></button>
+    </div></div>
+    <div class="contenido">
+      <div class="tarjeta" style="gap:10px">
+        <div class="toolbar">
+          <button class="tab sel" data-filtro="PENDIENTE">Pendientes</button>
+          <button class="tab" data-filtro="IMPRESO">Impresos</button>
+          <button class="tab" data-filtro="TODOS">Todos</button>
+          <input class="buscar" id="fBuscar" placeholder="Buscar N° rollo, pedido o reel" autocomplete="off">
+        </div>
+        <div class="toolbar" style="justify-content:space-between">
+          <button class="btn-link" id="btnSelTodos">Seleccionar todos</button>
+          <button class="btn-imprimir" id="btnImprimir" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"></path><rect x="4" y="9" width="16" height="8" rx="2"></rect><path d="M7 14h10v7H7z"></path></svg>
+            <span id="txtImprimir">Imprimir (0)</span>
+          </button>
+        </div>
+      </div>
+      <div class="lista" id="lista"></div>
+    </div>
+  </section>
+</div>
+
+<!-- Modal genérico -->
+<div class="modal-fondo oculto" id="modal">
+  <div class="modal" role="dialog" aria-modal="true">
+    <h2 id="modalTit"></h2>
+    <div class="cuerpo" id="modalCuerpo"></div>
+    <div id="modalBotones"></div>
+  </div>
+</div>
+
+<!-- Escáner -->
+<div class="scanner oculto" id="scanner">
+  <div class="scanner-top">
+    <button class="btn-volver" id="btnCerrarScanner">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Cerrar</button>
+    <b>Escanear código Billerud</b>
+  </div>
+  <div id="lector"></div>
+  <div class="scanner-msg" id="scannerMsg">Apunta al código de barras pequeño (11 dígitos, ej. 50760020003)</div>
+</div>
+
+<div class="cargando oculto" id="cargando">Cargando…</div>
+
+<div id="zonaImpresion"></div>
+
+<script>
+// =====================================================================
+// Configuración
+// =====================================================================
+const API_URL = '/api/action';
+const CLAVE_SESION = 'rotulos_rollos_sesion';
+const TIPOS = {
+  GLAZE:    { material: 'CONFLEX GLAZE',    gramaje: 70 },
+  GLAZE_PS: { material: 'CONFLEX GLAZE PS', gramaje: 50 }
+};
+
+let sesion = null;
+let pares = [];
+let filtro = 'PENDIENTE';
+let seleccion = new Set();
+let tipoSel = null;
+let lectorQR = null;
+
+const $ = (id) => document.getElementById(id);
+
+// =====================================================================
+// Utilidades
+// =====================================================================
+function esc(s) {
+  return String(s === undefined || s === null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function num(v) { return Number(String(v || '').trim().replace(',', '.')); }
+function kg(n) {
+  return Number(n).toLocaleString('es-CO', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+}
+function fechaCorta(f) {
+  const m = String(f || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : String(f || '');
+}
+function cargando(on) { $('cargando').classList.toggle('oculto', !on); }
+
+async function api(action, data) {
+  const r = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({ action, pin: sesion ? sesion.pin : null, data })
+  });
+  let j;
+  try { j = await r.json(); } catch (e) { throw new Error('El servidor no respondió bien. Intenta de nuevo.'); }
+  if (!j.ok) {
+    if (j.error === 'PIN incorrecto' && action !== 'login') { cerrarSesion(); }
+    throw new Error(j.error || 'Error');
+  }
+  return j;
+}
+
+// =====================================================================
+// Modal
+// =====================================================================
+function cerrarModal() { $('modal').classList.add('oculto'); }
+
+function preguntar(titulo, html) {
+  return new Promise((resolve) => {
+    $('modalTit').textContent = titulo;
+    $('modalCuerpo').innerHTML = html;
+    $('modalBotones').innerHTML =
+      '<div class="grid2"><button class="btn-si" id="mSi">SÍ</button><button class="btn-no" id="mNo">NO</button></div>';
+    $('modal').classList.remove('oculto');
+    $('mSi').onclick = () => { cerrarModal(); resolve(true); };
+    $('mNo').onclick = () => { cerrarModal(); resolve(false); };
+  });
+}
+
+function avisar(titulo, html, textoBoton) {
+  return new Promise((resolve) => {
+    $('modalTit').textContent = titulo;
+    $('modalCuerpo').innerHTML = html;
+    $('modalBotones').innerHTML = `<button class="btn-prim" id="mOk">${esc(textoBoton || 'Entendido')}</button>`;
+    $('modal').classList.remove('oculto');
+    $('mOk').onclick = () => { cerrarModal(); resolve(); };
+  });
+}
+
+// =====================================================================
+// Navegación
+// =====================================================================
+function mostrar(id) {
+  document.querySelectorAll('.pantalla').forEach((p) => p.classList.toggle('activa', p.id === id));
+  window.scrollTo(0, 0);
+}
+document.querySelectorAll('[data-volver]').forEach((b) => b.addEventListener('click', irHome));
+
+function irHome() {
+  mostrar('sHome');
+  $('chipUsuario').textContent = sesion.nombre;
+  $('btnIrRegistro').classList.toggle('oculto', !['bodega', 'admin'].includes(sesion.rol));
+  actualizarPendientesHome();
+}
+
+async function actualizarPendientesHome() {
+  $('homePend').textContent = 'Cargando…';
+  try {
+    const j = await api('historial');
+    pares = j.pares || [];
+    const n = pares.filter((p) => p.estado === 'PENDIENTE').length;
+    $('homePend').innerHTML = n
+      ? `<span class="badge pend">${n} ${n === 1 ? 'par' : 'pares'} por imprimir</span>`
+      : 'Todo impreso';
+  } catch (e) {
+    $('homePend').textContent = 'Ver registros e imprimir rótulos';
+  }
+}
+
+$('btnIrRegistro').addEventListener('click', () => { mostrar('sRegistro'); actualizarResumen(); });
+$('btnIrHistorial').addEventListener('click', () => { mostrar('sHistorial'); cargarHistorial(); });
+$('btnSalir').addEventListener('click', async () => {
+  if (await preguntar('Salir', '¿Cerrar sesión?')) cerrarSesion();
+});
+
+// =====================================================================
+// Login
+// =====================================================================
+let pin = '';
+function dibujarPin() {
+  document.querySelectorAll('#pinDots span').forEach((d, i) => d.classList.toggle('lleno', i < pin.length));
+}
+async function intentarLogin() {
+  $('loginError').textContent = '';
+  $('pinPad').style.pointerEvents = 'none';
+  cargando(true);
+  try {
+    sesion = { pin };
+    const j = await api('login');
+    sesion = { pin, nombre: j.usuario.nombre, rol: j.usuario.rol };
+    localStorage.setItem(CLAVE_SESION, JSON.stringify(sesion));
+    irHome();
+  } catch (e) {
+    sesion = null;
+    $('loginError').textContent = e.message;
+  } finally {
+    pin = ''; dibujarPin();
+    $('pinPad').style.pointerEvents = 'auto';
+    cargando(false);
+  }
+}
+function digito(d) {
+  $('loginError').textContent = '';
+  if (pin.length < 4) pin += d;
+  dibujarPin();
+  if (pin.length === 4) intentarLogin();
+}
+$('pinPad').addEventListener('click', (e) => {
+  const b = e.target.closest('button');
+  if (!b) return;
+  if (b.dataset.n !== undefined) digito(b.dataset.n);
+  else if (b.hasAttribute('data-borrar')) { pin = pin.slice(0, -1); dibujarPin(); }
+  else if (b.hasAttribute('data-limpiar')) { pin = ''; dibujarPin(); }
+});
+document.addEventListener('keydown', (e) => {
+  if (!$('sLogin').classList.contains('activa')) return;
+  if (e.key >= '0' && e.key <= '9') digito(e.key);
+  else if (e.key === 'Backspace') { pin = pin.slice(0, -1); dibujarPin(); }
+  else if (e.key === 'Escape') { pin = ''; dibujarPin(); }
+});
+
+function cerrarSesion() {
+  sesion = null;
+  localStorage.removeItem(CLAVE_SESION);
+  mostrar('sLogin');
+}
+
+// =====================================================================
+// Registro
+// =====================================================================
+document.querySelectorAll('.tipo-btn').forEach((b) => b.addEventListener('click', () => {
+  tipoSel = b.dataset.tipo;
+  document.querySelectorAll('.tipo-btn').forEach((x) => x.classList.toggle('sel', x === b));
+  actualizarResumen();
+}));
+['fPedido', 'fReel', 'fAncho', 'fPeso'].forEach((id) => $(id).addEventListener('input', actualizarResumen));
+
+function actualizarResumen() {
+  const total = num($('fPeso').value);
+  const ancho = num($('fAncho').value);
+  const c = total > 0 ? kg(Math.round((total / 2) * 10) / 10) + ' kg' : '— kg';
+  $('resPeso1').textContent = c;
+  $('resPeso2').textContent = c;
+  if (tipoSel) {
+    const t = TIPOS[tipoSel];
+    $('resMaterial').textContent = `${t.material} ${t.gramaje} g/m²` + (ancho > 0 ? ` · ${ancho} mm` : '') + ' · El número se asigna al registrar';
+  } else {
+    $('resMaterial').textContent = 'Selecciona el tipo de rollo.';
+  }
+}
+
+function validarFormulario() {
+  if (!tipoSel) return 'Selecciona el tipo de rollo.';
+  const pedido = $('fPedido').value.trim();
+  if (!/^\d{5,8}(-\d{1,2})?$/.test(pedido)) return 'Pedido inválido. Ej: 5076002';
+  if (!/^\d{1,5}$/.test($('fReel').value.trim())) return 'Reel inválido. Ej: 0003';
+  const ancho = num($('fAncho').value);
+  if (!(ancho >= 100 && ancho <= 3000)) return 'Ancho inválido (entre 100 y 3000 mm).';
+  const peso = num($('fPeso').value);
+  if (!(peso >= 100 && peso <= 1500)) return 'Peso total inválido (entre 100 y 1500 kg).';
+  return null;
+}
+
+$('btnRegistrar').addEventListener('click', async () => {
+  const err = validarFormulario();
+  if (err) return avisar('Revisa los datos', esc(err));
+
+  const t = TIPOS[tipoSel];
+  const datos = {
+    tipo: tipoSel,
+    pedido: $('fPedido').value.trim(),
+    reel: $('fReel').value.trim(),
+    ancho: num($('fAncho').value),
+    pesoTotal: num($('fPeso').value)
+  };
+  const pesoC = kg(Math.round((datos.pesoTotal / 2) * 10) / 10);
+
+  const ok = await preguntar('¿Registrar este par de rollos?',
+    `<b>${esc(t.material)} ${t.gramaje} g/m²</b><br>
+     Pedido ${esc(datos.pedido)} · Reel ${esc(datos.reel.padStart(4, '0'))}<br>
+     Ancho ${esc(datos.ancho)} mm · Total ${kg(datos.pesoTotal)} kg<br>
+     <b>2 rollos de ${pesoC} kg</b>`);
+  if (!ok) return;
+
+  await enviarRegistro(datos);
+});
+
+async function enviarRegistro(datos) {
+  cargando(true);
+  $('btnRegistrar').disabled = true;
+  try {
+    const j = await api('registrar', datos);
+    cargando(false);
+
+    if (j.duplicado) {
+      const d = j.duplicado;
+      const seguir = await preguntar('Rollo ya registrado',
+        `Este pedido y reel ya se registró como <b>${esc(d.id)}</b> el ${esc(fechaCorta(d.fecha))} ${esc(d.hora)} por ${esc(d.por)}.<br><br>¿Registrarlo de nuevo con otro número?`);
+      if (seguir) await enviarRegistro({ ...datos, forzar: true });
+      return;
+    }
+
+    const p = j.par;
+    await avisar('Registrado',
+      `Se generaron <b class="cond" style="font-size:22px">${esc(p.rollo1)}</b> y <b class="cond" style="font-size:22px">${esc(p.rollo2)}</b><br>
+       ${kg(p.pesoRollo)} kg cada uno.<br><br>Quedan <b>pendientes de imprimir</b> en el historial.`,
+      'Registrar otro');
+    ['fPedido', 'fReel', 'fPeso'].forEach((id) => { $(id).value = ''; });
+    actualizarResumen();
+  } catch (e) {
+    cargando(false);
+    avisar('No se pudo registrar', esc(e.message));
+  } finally {
+    $('btnRegistrar').disabled = false;
+  }
+}
+
+// =====================================================================
+// Escáner (html5-qrcode, carga diferida)
+// =====================================================================
+function cargarScript(src) {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) return resolve();
+    const s = document.createElement('script');
+    s.src = src; s.onload = resolve; s.onerror = () => reject(new Error('No se pudo cargar el lector'));
+    document.head.appendChild(s);
+  });
+}
+
+$('btnEscanear').addEventListener('click', abrirScanner);
+$('btnCerrarScanner').addEventListener('click', cerrarScanner);
+
+async function abrirScanner() {
+  try {
+    cargando(true);
+    await cargarScript('https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js');
+    cargando(false);
+    $('scanner').classList.remove('oculto');
+    $('scannerMsg').textContent = 'Apunta al código de barras pequeño (11 dígitos, ej. 50760020003)';
+    const F = Html5QrcodeSupportedFormats;
+    lectorQR = new Html5Qrcode('lector', {
+      formatsToSupport: [F.CODE_128, F.ITF, F.CODE_39, F.EAN_13],
+      verbose: false
+    });
+    await lectorQR.start(
+      { facingMode: 'environment' },
+      { fps: 10, qrbox: (w, h) => ({ width: Math.min(w * 0.9, 360), height: Math.min(h * 0.35, 140) }) },
+      alLeer,
+      () => {}
+    );
+  } catch (e) {
+    cargando(false);
+    cerrarScanner();
+    avisar('No se pudo abrir la cámara', esc(e.message || e) + '<br>Digita el pedido y el reel a mano.');
+  }
+}
+
+function alLeer(texto) {
+  const d = String(texto || '').replace(/\D/g, '');
+  if (d.length !== 11) {
+    $('scannerMsg').textContent = `Leí ${d.length} dígitos. Ese no es: busca el código pequeño de 11 dígitos.`;
+    return;
+  }
+  $('fPedido').value = d.slice(0, 7);
+  $('fReel').value = d.slice(7);
+  if (navigator.vibrate) navigator.vibrate(80);
+  cerrarScanner();
+  actualizarResumen();
+  $('fAncho').focus();
+}
+
+async function cerrarScanner() {
+  if (lectorQR) {
+    try { if (lectorQR.isScanning) await lectorQR.stop(); lectorQR.clear(); } catch (e) {}
+    lectorQR = null;
+  }
+  $('scanner').classList.add('oculto');
+}
+
+// =====================================================================
+// Historial
+// =====================================================================
+document.querySelectorAll('.tab').forEach((b) => b.addEventListener('click', () => {
+  filtro = b.dataset.filtro;
+  document.querySelectorAll('.tab').forEach((x) => x.classList.toggle('sel', x === b));
+  seleccion.clear();
+  pintarLista();
+}));
+$('fBuscar').addEventListener('input', pintarLista);
+$('btnRecargar').addEventListener('click', cargarHistorial);
+
+async function cargarHistorial() {
+  $('lista').innerHTML = '<div class="vacio">Cargando…</div>';
+  try {
+    const j = await api('historial');
+    pares = j.pares || [];
+    seleccion.clear();
+    pintarLista();
+  } catch (e) {
+    $('lista').innerHTML = `<div class="vacio">${esc(e.message)}</div>`;
+  }
+}
+
+function paresFiltrados() {
+  const q = $('fBuscar').value.trim().toLowerCase();
+  return pares.filter((p) => {
+    if (filtro !== 'TODOS' && p.estado !== filtro) return false;
+    if (!q) return true;
+    return [p.id, p.rollo1, p.rollo2, p.pedido, p.reel, p.material].join(' ').toLowerCase().includes(q);
+  });
+}
+
+function pintarLista() {
+  const pend = pares.filter((p) => p.estado === 'PENDIENTE').length;
+  $('histResumen').textContent = `${pend} ${pend === 1 ? 'par pendiente' : 'pares pendientes'} · ${pares.length} registros`;
+
+  const lista = paresFiltrados();
+  if (!lista.length) {
+    $('lista').innerHTML = `<div class="vacio">${filtro === 'PENDIENTE' ? 'No hay rótulos pendientes por imprimir.' : 'Sin registros.'}</div>`;
+  } else {
+    $('lista').innerHTML = lista.map((p) => {
+      const sel = seleccion.has(String(p.id));
+      const badge = p.estado === 'IMPRESO'
+        ? `<span class="badge imp">Impreso${p.vecesImpreso > 1 ? ' ×' + p.vecesImpreso : ''}</span>`
+        : '<span class="badge pend">Pendiente</span>';
+      return `<label class="item${sel ? ' sel' : ''}">
+        <input type="checkbox" data-id="${esc(p.id)}"${sel ? ' checked' : ''}>
+        <div class="item-c">
+          <div class="item-top"><span class="cond">${esc(p.id)} <small>-1 y -2</small></span>${badge}</div>
+          <div class="item-mat">${esc(p.material)} ${esc(p.gramaje)} · ${esc(p.ancho)} mm · ${kg(p.pesoRollo)} kg c/u</div>
+          <div class="item-meta">Pedido ${esc(p.pedido)} · Reel ${esc(p.reel)} · ${esc(fechaCorta(p.fecha))} ${esc(p.hora)} · ${esc(p.registradoPor)}</div>
+          ${p.estado === 'IMPRESO' ? `<div class="item-meta">Impreso ${esc(p.fechaImpresion)} · ${esc(p.impresoPor)}</div>` : ''}
+        </div>
+      </label>`;
+    }).join('');
+  }
+  $('lista').querySelectorAll('input[type=checkbox]').forEach((c) => c.addEventListener('change', () => {
+    const id = c.dataset.id;
+    if (c.checked) seleccion.add(id); else seleccion.delete(id);
+    c.closest('.item').classList.toggle('sel', c.checked);
+    actualizarBotonImprimir();
+  }));
+  actualizarBotonImprimir();
+}
+
+function actualizarBotonImprimir() {
+  const n = seleccion.size;
+  $('btnImprimir').disabled = n === 0;
+  $('txtImprimir').textContent = n ? `Imprimir (${n} ${n === 1 ? 'hoja' : 'hojas'})` : 'Imprimir (0)';
+  const visibles = paresFiltrados();
+  const todos = visibles.length && visibles.every((p) => seleccion.has(String(p.id)));
+  $('btnSelTodos').textContent = todos ? 'Quitar selección' : 'Seleccionar todos';
+}
+
+$('btnSelTodos').addEventListener('click', () => {
+  const visibles = paresFiltrados();
+  const todos = visibles.length && visibles.every((p) => seleccion.has(String(p.id)));
+  visibles.forEach((p) => { if (todos) seleccion.delete(String(p.id)); else seleccion.add(String(p.id)); });
+  pintarLista();
+});
+
+// =====================================================================
+// Impresión — 1 hoja carta por par (rollo -1 arriba, -2 abajo)
+// =====================================================================
+function svgQR(texto) {
+  const qr = qrcode(0, 'M');
+  qr.addData(texto);
+  qr.make();
+  return qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true });
+}
+
+function htmlRotulo(p, pos) {
+  const numRollo = pos === 1 ? p.rollo1 : p.rollo2;
+  const qrTexto = pos === 1 ? p.qr1 : p.qr2;
+  return `<div class="rot${pos === 1 ? ' arriba' : ''}">
+    <div class="rot-head"><span class="cond">TECNIPAPEL · BODEGA MATERIA PRIMA</span><span class="rot-pos">ROLLO ${pos} DE 2</span></div>
+    <div class="rot-cuerpo">
+      <div class="rot-datos">
+        <div><div class="rot-lbl">N° ROLLO</div><div class="cond rot-num">${esc(numRollo)}</div></div>
+        <div class="rot-grid">
+          <div class="ancho2"><span class="rot-lbl">MATERIAL</span><span class="cond rot-val mat">${esc(p.material)} · ${esc(p.gramaje)} g/m²</span></div>
+          <div><span class="rot-lbl">ANCHO</span><span class="cond rot-val">${esc(p.ancho)} mm</span></div>
+          <div><span class="rot-lbl">PESO</span><span class="cond rot-val">${kg(p.pesoRollo)} kg</span></div>
+        </div>
+      </div>
+      <div class="rot-qr">${svgQR(qrTexto)}<code>${esc(qrTexto)}</code></div>
+    </div>
+    <div class="rot-pie"><span>Billerud · Pedido ${esc(p.pedido)} · Reel ${esc(p.reel)}</span><span>Ingreso ${esc(fechaCorta(p.fecha))} · ${esc(p.registradoPor)}</span></div>
+  </div>`;
+}
+
+$('btnImprimir').addEventListener('click', async () => {
+  const sel = pares.filter((p) => seleccion.has(String(p.id)));
+  if (!sel.length) return;
+  const reimp = sel.filter((p) => p.estado === 'IMPRESO').length;
+  if (reimp && !(await preguntar('Reimprimir', `${reimp} de los seleccionados ya se habían impreso. ¿Imprimir de nuevo?`))) return;
+
+  $('zonaImpresion').innerHTML = sel.map((p) => `<div class="hoja">${htmlRotulo(p, 1)}${htmlRotulo(p, 2)}</div>`).join('');
+
+  const ids = sel.map((p) => String(p.id));
+  const despues = async () => {
+    window.removeEventListener('afterprint', despues);
+    const ok = await preguntar('¿Salieron bien los rótulos?',
+      `Si respondes SÍ, ${ids.length === 1 ? 'el par queda' : 'los ' + ids.length + ' pares quedan'} marcados como <b>impresos</b>.`);
+    if (!ok) return;
+    cargando(true);
+    try {
+      await api('marcarImpreso', { ids });
+      cargando(false);
+      await cargarHistorial();
+    } catch (e) {
+      cargando(false);
+      avisar('No se pudo marcar como impreso', esc(e.message));
+    }
+  };
+  window.addEventListener('afterprint', despues);
+  setTimeout(() => window.print(), 150);
+});
+
+// =====================================================================
+// Inicio
+// =====================================================================
+(function iniciar() {
+  try { sesion = JSON.parse(localStorage.getItem(CLAVE_SESION) || 'null'); } catch (e) { sesion = null; }
+  if (sesion && sesion.pin && sesion.nombre) irHome();
+  else mostrar('sLogin');
+})();
+</script>
+</body>
+</html>
