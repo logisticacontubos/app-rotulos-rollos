@@ -2,120 +2,194 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
 <title>Rótulos Rollos · Tecnipapel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <style>
 :root{
-  --verde:#80AD36; --verde-osc:#4E7A1E; --verde-claro:#EEF5E3;
-  --fondo:#F1EFEA; --blanco:#FFFFFF; --texto:#1F1D1A; --gris:#6B655B; --borde:#DDD8CE; --suave:#F7F5F0;
-  --si:#2E8B3E; --no:#C62828; --ambar-f:#FDECC8; --ambar-t:#8A4B00;
-  --sombra:0 2px 8px rgba(0,0,0,.06);
+  --verde:#80AD36; --verde-osc:#4E7A1E; --verde-prof:#2F4D10; --verde-claro:#EEF5E3; --verde-borde:#CFE2B4;
+  --fondo:#F1EFEA; --blanco:#FFFFFF; --texto:#1F1D1A; --gris:#6B655B; --gris-claro:#9A948A; --borde:#E4E0D7; --suave:#F7F5F0;
+  --si:#2E8B3E; --no:#C62828; --ambar-f:#FDF0D5; --ambar-t:#8A4B00; --ambar-b:#F2D39A;
+  --sombra:0 1px 2px rgba(31,29,26,.04), 0 4px 14px rgba(31,29,26,.06);
+  --sombra-hover:0 2px 4px rgba(31,29,26,.06), 0 10px 24px rgba(31,29,26,.10);
+  --radio:18px;
 }
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--fondo);color:var(--texto);font-family:'Barlow',system-ui,sans-serif;font-size:16px}
-button,input{font:inherit}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--fondo);color:var(--texto);font-family:'Barlow',system-ui,sans-serif;font-size:16px;-webkit-font-smoothing:antialiased}
+button,input{font:inherit;color:inherit}
 button{cursor:pointer}
 .oculto{display:none!important}
-.cond{font-family:'Barlow Condensed','Barlow',sans-serif;font-weight:700}
+.cond{font-family:'Barlow Condensed','Barlow',sans-serif;font-weight:700;letter-spacing:.01em}
 
-.app{max-width:1100px;margin:0 auto;min-height:100vh}
-.pantalla{display:none}
+.app{min-height:100vh}
+.pantalla{display:none;animation:entrar .22s ease-out}
 .pantalla.activa{display:block}
+@keyframes entrar{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* Barra superior */
-.barra{background:var(--blanco);box-shadow:0 1px 0 #E2DED6;position:sticky;top:0;z-index:20}
-.barra-in{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
-.btn-volver{height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--borde);background:var(--blanco);display:flex;align-items:center;gap:6px;font-weight:600;color:var(--texto)}
+/* ---------- Barra superior ---------- */
+.barra{background:var(--blanco);border-bottom:3px solid var(--verde);position:sticky;top:0;z-index:20}
+.barra-in{max-width:960px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:14px;min-height:64px}
+.logo{height:26px;width:auto;display:block}
+.sep{width:1px;height:28px;background:var(--borde)}
 .barra-tit{flex:1;min-width:0}
-.barra-tit h1{margin:0;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:22px;line-height:1.1}
-.barra-tit p{margin:0;font-size:13px;color:var(--gris)}
-.chip{font-size:12px;font-weight:600;background:var(--fondo);padding:6px 10px;border-radius:999px;white-space:nowrap}
-.logo{height:28px;width:auto;display:block}
+.barra-tit h1{margin:0;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:21px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barra-tit p{margin:1px 0 0;font-size:13px;color:var(--gris);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn-volver{height:42px;padding:0 14px 0 10px;border-radius:12px;border:1px solid var(--borde);background:var(--blanco);display:flex;align-items:center;gap:4px;font-weight:600;font-size:15px;transition:background .15s}
+.btn-volver:hover{background:var(--suave)}
+.btn-icono{width:42px;height:42px;border-radius:12px;border:1px solid var(--borde);background:var(--blanco);display:flex;align-items:center;justify-content:center;transition:background .15s}
+.btn-icono:hover{background:var(--suave)}
+.usuario{display:flex;align-items:center;gap:8px}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--verde-claro);color:var(--verde-prof);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
 
-.contenido{padding:16px;display:flex;flex-direction:column;gap:14px}
-.tarjeta{background:var(--blanco);border-radius:16px;padding:16px;box-shadow:var(--sombra);display:flex;flex-direction:column;gap:12px}
-.etq{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--gris)}
+.contenido{max-width:960px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:16px}
+.angosto{max-width:600px}
+.tarjeta{background:var(--blanco);border-radius:var(--radio);padding:18px;box-shadow:var(--sombra);display:flex;flex-direction:column;gap:14px}
+.paso{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.paso i{font-style:normal;width:26px;height:26px;border-radius:50%;background:var(--verde-claro);color:var(--verde-prof);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 
-/* Login */
-.login{max-width:360px;margin:0 auto;padding:48px 16px;text-align:center}
-.login .sub{font-size:12px;color:var(--gris);letter-spacing:1px;margin:10px 0 0}
-.pin-dots{display:flex;gap:14px;justify-content:center;margin:24px 0 10px}
-.pin-dots span{width:16px;height:16px;border-radius:50%;border:2px solid var(--verde-osc)}
-.pin-dots span.lleno{background:var(--verde-osc)}
-.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
-.pin-pad button{height:64px;border-radius:16px;border:none;background:var(--blanco);box-shadow:var(--sombra);font-size:24px;font-weight:600;color:var(--texto)}
-.pin-pad button.sec{background:transparent;box-shadow:none;color:var(--gris);font-size:15px}
+/* ---------- Login ---------- */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.login{width:100%;max-width:360px;background:var(--blanco);border-radius:24px;box-shadow:var(--sombra);padding:32px 24px 24px;text-align:center;border-top:4px solid var(--verde)}
+.login .logo{height:36px;margin:0 auto}
+.login h1{margin:16px 0 2px;font-family:'Barlow Condensed',sans-serif;font-size:26px}
+.login .sub{font-size:14px;color:var(--gris);margin:0}
+.pin-lbl{font-size:13px;color:var(--gris);margin:26px 0 0;font-weight:600;letter-spacing:.04em}
+.pin-dots{display:flex;gap:16px;justify-content:center;margin:14px 0 8px}
+.pin-dots span{width:14px;height:14px;border-radius:50%;background:var(--borde);transition:background .15s, transform .15s}
+.pin-dots span.lleno{background:var(--verde-osc);transform:scale(1.15)}
+.pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.pin-pad button{height:60px;border-radius:14px;border:1px solid var(--borde);background:var(--suave);font-size:24px;font-weight:600;transition:background .12s, transform .08s}
+.pin-pad button:hover{background:#EFECE5}
+.pin-pad button:active{transform:scale(.96);background:var(--verde-claro)}
+.pin-pad button.sec{background:transparent;border-color:transparent;color:var(--gris);font-size:16px}
 .error{color:var(--no);font-weight:600;font-size:14px;min-height:20px}
 
-/* Home */
-.menu-btn{display:flex;align-items:center;gap:14px;background:var(--blanco);border:none;border-radius:16px;padding:20px 18px;box-shadow:var(--sombra);text-align:left;width:100%;color:var(--texto)}
-.menu-btn .ico{width:52px;height:52px;border-radius:14px;background:var(--verde-claro);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.menu-btn b{display:block;font-size:19px}
-.menu-btn span{font-size:14px;color:var(--gris)}
-.badge{display:inline-block;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:700}
+/* ---------- Home ---------- */
+.saludo h2{margin:0;font-family:'Barlow Condensed',sans-serif;font-size:30px;line-height:1.1}
+.saludo p{margin:4px 0 0;color:var(--gris);font-size:15px}
+.saludo p::first-letter{text-transform:uppercase}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.stat{background:var(--blanco);border-radius:16px;padding:14px 16px;box-shadow:var(--sombra)}
+.stat b{display:block;font-family:'Barlow Condensed',sans-serif;font-size:32px;line-height:1.05}
+.stat span{font-size:13px;color:var(--gris);font-weight:600}
+.stat.alerta{background:var(--ambar-f);box-shadow:none;border:1px solid var(--ambar-b)}
+.stat.alerta b{color:var(--ambar-t)}
+.acciones{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.accion{display:flex;align-items:center;gap:16px;border:none;border-radius:20px;padding:22px 20px;text-align:left;width:100%;box-shadow:var(--sombra);transition:transform .15s, box-shadow .15s;min-height:112px}
+.accion:hover{transform:translateY(-2px);box-shadow:var(--sombra-hover)}
+.accion:active{transform:scale(.99)}
+.accion .ico{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.accion .txt{flex:1;min-width:0}
+.accion b{display:block;font-size:20px;line-height:1.15}
+.accion .txt > span{display:block;font-size:14px;margin-top:3px}
+.accion.prim{background:var(--verde-osc);color:#fff}
+.accion.prim .ico{background:rgba(255,255,255,.14)}
+.accion.prim .txt > span{color:#DCE9C8}
+.accion.sec{background:var(--blanco);color:var(--texto)}
+.accion.sec .ico{background:var(--verde-claro)}
+.accion.sec .txt > span{color:var(--gris)}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:700;white-space:nowrap}
+.badge::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
 .badge.pend{background:var(--ambar-f);color:var(--ambar-t)}
 .badge.imp{background:var(--verde-claro);color:#3B5F14}
 
-/* Formulario */
-.tipo-btn{min-height:84px;border-radius:12px;padding:10px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;text-align:left;border:2px solid var(--borde);background:var(--blanco);color:var(--texto)}
+/* ---------- Formulario ---------- */
+.tipo-btn{position:relative;min-height:88px;border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;text-align:left;border:2px solid var(--borde);background:var(--blanco);transition:border-color .15s, background .15s}
+.tipo-btn:hover{border-color:var(--verde-borde)}
 .tipo-btn .cond{font-size:20px;line-height:1.05}
-.tipo-btn small{font-size:13px}
-.tipo-btn.sel{border-color:var(--verde-osc);background:var(--verde-claro);color:#2F4D10}
-.btn-escanear{background:var(--texto);color:#fff;border:none;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;text-align:left;width:100%}
-.btn-escanear b{display:block;font-size:16px}
+.tipo-btn small{font-size:13px;color:var(--gris)}
+.tipo-btn .check{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:var(--verde-osc);display:none;align-items:center;justify-content:center}
+.tipo-btn.sel{border-color:var(--verde-osc);background:var(--verde-claro)}
+.tipo-btn.sel .cond{color:var(--verde-prof)}
+.tipo-btn.sel .check{display:flex}
+.btn-escanear{background:var(--texto);color:#fff;border:none;border-radius:var(--radio);padding:16px 18px;display:flex;align-items:center;gap:14px;text-align:left;width:100%;box-shadow:var(--sombra);transition:transform .15s}
+.btn-escanear:active{transform:scale(.99)}
+.btn-escanear .ico{width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.btn-escanear b{display:block;font-size:17px}
 .btn-escanear span{font-size:13px;color:#C9C4BA}
-label.campo{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:#4A453E}
-label.campo input{height:48px;border:1px solid var(--borde);border-radius:10px;padding:0 12px;font-size:18px;background:#FAF9F6;color:var(--texto);width:100%}
-label.campo input:focus{outline:2px solid var(--verde);border-color:var(--verde)}
-.nota{font-size:13px;color:var(--gris)}
-.resumen{border-top:4px solid var(--verde)}
-.res-fila{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--suave);border-radius:10px}
-.res-fila .cond{font-size:24px}
-.res-fila b{font-size:18px}
-.btn-prim{height:56px;border:none;border-radius:12px;background:var(--verde-osc);color:#fff;font-weight:700;font-size:18px;width:100%}
-.btn-prim:disabled{opacity:.5}
+label.campo{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600;color:#4A453E}
+label.campo input{height:52px;border:1.5px solid var(--borde);border-radius:12px;padding:0 14px;font-size:19px;font-weight:600;background:var(--suave);width:100%;transition:border-color .15s, background .15s}
+label.campo input::placeholder{color:#BDB7AC;font-weight:500}
+label.campo input:focus{outline:none;border-color:var(--verde);background:var(--blanco);box-shadow:0 0 0 3px rgba(128,173,54,.18)}
+.nota{font-size:13px;color:var(--gris);line-height:1.4}
+.resumen{border:2px dashed var(--verde-borde);box-shadow:none;background:#FBFDF8}
+.rollos-prev{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.rollo-prev{background:var(--blanco);border:1px solid var(--borde);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.rollo-prev small{font-size:12px;font-weight:700;color:var(--gris);letter-spacing:.06em}
+.rollo-prev b{font-family:'Barlow Condensed',sans-serif;font-size:28px;line-height:1.05}
+.btn-prim{height:58px;border:none;border-radius:14px;background:var(--verde-osc);color:#fff;font-weight:700;font-size:18px;width:100%;transition:background .15s, transform .08s;box-shadow:0 4px 12px rgba(78,122,30,.25)}
+.btn-prim:hover{background:#43691A}
+.btn-prim:active{transform:scale(.99)}
+.btn-prim:disabled{opacity:.5;box-shadow:none}
 
-/* Historial */
-.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.tab{height:44px;padding:0 14px;border-radius:10px;border:2px solid var(--borde);background:var(--blanco);font-weight:600;font-size:14px;color:var(--texto)}
-.tab.sel{background:var(--texto);border-color:var(--texto);color:#fff}
-.buscar{flex:1 1 220px;height:44px;border:1px solid var(--borde);border-radius:10px;padding:0 12px;background:var(--blanco);font-size:15px}
-.btn-imprimir{height:44px;padding:0 16px;border:none;border-radius:10px;background:var(--verde-osc);color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px}
-.btn-imprimir:disabled{opacity:.45}
+/* ---------- Historial ---------- */
+.segmentos{display:inline-flex;background:var(--suave);border:1px solid var(--borde);border-radius:12px;padding:3px;gap:2px}
+.tab{height:38px;padding:0 14px;border-radius:9px;border:none;background:transparent;font-weight:600;font-size:14px;color:var(--gris);transition:background .15s,color .15s}
+.tab.sel{background:var(--blanco);color:var(--texto);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.buscar-wrap{flex:1 1 220px;position:relative}
+.buscar-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%)}
+.buscar{width:100%;height:44px;border:1.5px solid var(--borde);border-radius:12px;padding:0 12px 0 38px;background:var(--blanco);font-size:15px}
+.buscar:focus{outline:none;border-color:var(--verde);box-shadow:0 0 0 3px rgba(128,173,54,.18)}
+.barra-sel{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding-top:12px;border-top:1px solid var(--borde)}
+.btn-imprimir{height:46px;padding:0 18px;border:none;border-radius:12px;background:var(--verde-osc);color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;transition:background .15s}
+.btn-imprimir:hover:not(:disabled){background:#43691A}
+.btn-imprimir:disabled{background:#B9C6A6;cursor:default}
 .btn-link{background:none;border:none;color:var(--verde-osc);font-weight:700;font-size:14px;padding:8px 4px}
 .lista{display:flex;flex-direction:column;gap:10px}
-.item{display:flex;gap:12px;align-items:flex-start;background:var(--blanco);border-radius:14px;padding:14px;box-shadow:var(--sombra);cursor:pointer;border:2px solid transparent}
-.item.sel{border-color:var(--verde-osc)}
-.item input{width:22px;height:22px;margin-top:4px;accent-color:var(--verde-osc);flex-shrink:0}
-.item-c{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
-.item-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.item-top .cond{font-size:22px}
-.item-top small{font-family:'Barlow',sans-serif;font-weight:500;font-size:13px;color:var(--gris)}
-.item-mat{font-weight:600}
+.item{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:var(--blanco);border-radius:16px;padding:14px 16px;box-shadow:var(--sombra);cursor:pointer;border:2px solid transparent;transition:border-color .15s, background .15s}
+.item:hover{border-color:var(--borde)}
+.item.sel{border-color:var(--verde-osc);background:#FBFDF8}
+.item input{width:22px;height:22px;accent-color:var(--verde-osc);margin:0}
+.item-c{min-width:0;display:flex;flex-direction:column;gap:2px}
+.item-num{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:24px;line-height:1.05}
+.item-num small{font-family:'Barlow',sans-serif;font-weight:500;font-size:13px;color:var(--gris);margin-left:4px}
+.item-mat{font-weight:600;font-size:15px}
 .item-meta{font-size:13px;color:var(--gris)}
-.vacio{text-align:center;color:var(--gris);padding:40px 16px}
+.item-der{display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right}
+.item-peso{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px}
+.item-peso small{font-family:'Barlow',sans-serif;font-size:12px;color:var(--gris);font-weight:500}
+.vacio{text-align:center;color:var(--gris);padding:48px 16px;background:var(--blanco);border-radius:var(--radio);box-shadow:var(--sombra)}
+.vacio b{display:block;color:var(--texto);font-size:17px;margin-bottom:4px}
+@media (max-width:560px){
+  .item{grid-template-columns:auto 1fr;}
+  .item-der{grid-column:2;flex-direction:row;align-items:center;justify-content:space-between;text-align:left}
+  .stats{gap:8px}
+  .stat{padding:12px}
+  .stat b{font-size:26px}
+  .stat span{font-size:12px}
+  .saludo h2{font-size:26px}
+  .barra-in{padding:10px 14px}
+  .contenido{padding:16px}
+  .ocultar-movil{display:none!important}
+}
 
-/* Modal */
-.modal-fondo{position:fixed;inset:0;background:rgba(20,18,15,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:100}
-.modal{background:var(--blanco);border-radius:18px;padding:20px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:14px}
-.modal h2{margin:0;font-size:20px}
-.modal .cuerpo{font-size:16px;line-height:1.4}
-.btn-si,.btn-no{height:56px;border:none;border-radius:12px;color:#fff;font-weight:700;font-size:20px}
+/* ---------- Modal ---------- */
+.modal-fondo{position:fixed;inset:0;background:rgba(20,18,15,.5);display:flex;align-items:center;justify-content:center;padding:16px;z-index:100;animation:fade .15s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal{background:var(--blanco);border-radius:22px;padding:24px 20px 20px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:14px;box-shadow:0 20px 50px rgba(0,0,0,.25);animation:subir .2s ease-out}
+@keyframes subir{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
+.modal h2{margin:0;font-size:21px;font-family:'Barlow Condensed',sans-serif}
+.modal .cuerpo{font-size:16px;line-height:1.5;color:#3A362F}
+.btn-si,.btn-no{height:58px;border:none;border-radius:14px;color:#fff;font-weight:700;font-size:20px;transition:filter .15s}
+.btn-si:hover,.btn-no:hover{filter:brightness(.93)}
 .btn-si{background:var(--si)} .btn-no{background:var(--no)}
+.det{background:var(--suave);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;font-size:15px}
 
-/* Escáner */
+/* ---------- Escáner ---------- */
 .scanner{position:fixed;inset:0;background:#000;z-index:90;display:flex;flex-direction:column}
 .scanner-top{padding:12px 16px;display:flex;align-items:center;gap:12px;color:#fff}
-.scanner-top .btn-volver{background:#fff}
 #lector{flex:1;width:100%}
 #lector video{object-fit:cover}
-.scanner-msg{color:#fff;text-align:center;padding:14px 16px 24px;font-size:15px}
+.scanner-msg{color:#fff;text-align:center;padding:14px 16px 28px;font-size:15px}
 
-.cargando{position:fixed;inset:0;background:rgba(241,239,234,.7);z-index:95;display:flex;align-items:center;justify-content:center;font-weight:700}
+.cargando{position:fixed;inset:0;background:rgba(241,239,234,.75);z-index:95;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;font-weight:600;color:var(--gris)}
+.spinner{width:36px;height:36px;border-radius:50%;border:4px solid var(--verde-claro);border-top-color:var(--verde-osc);animation:girar .8s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
 
 /* ---------- Impresión ---------- */
 #zonaImpresion{display:none}
@@ -153,19 +227,24 @@ label.campo input:focus{outline:2px solid var(--verde);border-color:var(--verde)
 
   <!-- ========== LOGIN ========== -->
   <section id="sLogin" class="pantalla activa">
-    <div class="login">
-      <img src="assets/logo-tecnipapel.png" alt="Tecnipapel" class="logo" style="margin:0 auto;height:34px" onerror="this.style.display='none'">
-      <p class="sub">RÓTULOS DE ROLLOS · BILLERUD</p>
-      <p style="font-size:13px;color:var(--gris);margin:28px 0 0">Ingresa tu PIN</p>
-      <div class="pin-dots" id="pinDots"><span></span><span></span><span></span><span></span></div>
-      <div class="error" id="loginError"></div>
-      <div class="pin-pad" id="pinPad">
-        <button data-n="1">1</button><button data-n="2">2</button><button data-n="3">3</button>
-        <button data-n="4">4</button><button data-n="5">5</button><button data-n="6">6</button>
-        <button data-n="7">7</button><button data-n="8">8</button><button data-n="9">9</button>
-        <button class="sec" data-borrar aria-label="Borrar">⌫</button>
-        <button data-n="0">0</button>
-        <button class="sec" data-limpiar>C</button>
+    <div class="login-wrap">
+      <div class="login">
+        <img src="assets/logo-tecnipapel.png" alt="Tecnipapel" class="logo" onerror="this.style.display='none'">
+        <h1>Rótulos de Rollos</h1>
+        <p class="sub">Billerud · Conflex Glaze</p>
+        <p class="pin-lbl">INGRESA TU PIN</p>
+        <div class="pin-dots" id="pinDots"><span></span><span></span><span></span><span></span></div>
+        <div class="error" id="loginError"></div>
+        <div class="pin-pad" id="pinPad">
+          <button data-n="1">1</button><button data-n="2">2</button><button data-n="3">3</button>
+          <button data-n="4">4</button><button data-n="5">5</button><button data-n="6">6</button>
+          <button data-n="7">7</button><button data-n="8">8</button><button data-n="9">9</button>
+          <button class="sec" data-limpiar>Borrar</button>
+          <button data-n="0">0</button>
+          <button class="sec" data-borrar aria-label="Borrar último dígito">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 5H8l-6 7 6 7h13a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1z"></path><path d="M17 9l-6 6M11 9l6 6"></path></svg>
+          </button>
+        </div>
       </div>
     </div>
   </section>
@@ -174,19 +253,40 @@ label.campo input:focus{outline:2px solid var(--verde);border-color:var(--verde)
   <section id="sHome" class="pantalla">
     <div class="barra"><div class="barra-in">
       <img src="assets/logo-tecnipapel.png" alt="Tecnipapel" class="logo" onerror="this.style.display='none'">
-      <div class="barra-tit"><h1>Rótulos de Rollos</h1><p>Tecnipapel · Billerud</p></div>
-      <span class="chip" id="chipUsuario"></span>
-      <button class="btn-volver" id="btnSalir">Salir</button>
+      <div class="sep ocultar-movil"></div>
+      <div class="barra-tit ocultar-movil"><h1>Rótulos de Rollos</h1></div>
+      <div style="flex:1" class=""></div>
+      <div class="usuario">
+        <div class="avatar" id="avatarUsuario"></div>
+        <button class="btn-icono" id="btnSalir" aria-label="Cerrar sesión" title="Cerrar sesión">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path></svg>
+        </button>
+      </div>
     </div></div>
     <div class="contenido">
-      <button class="menu-btn" id="btnIrRegistro">
-        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4E7A1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3"></circle><path d="M12 3v6"></path></svg></div>
-        <div><b>Registrar rollo</b><span>En bodega: tipo, pedido, reel, ancho y peso</span></div>
-      </button>
-      <button class="menu-btn" id="btnIrHistorial">
-        <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4E7A1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"></path><rect x="4" y="9" width="16" height="8" rx="2"></rect><path d="M7 14h10v7H7z"></path></svg></div>
-        <div><b>Historial e impresión</b><span id="homePend">Cargando…</span></div>
-      </button>
+      <div class="saludo">
+        <h2 id="saludoTxt">Hola</h2>
+        <p id="fechaHoy"></p>
+      </div>
+
+      <div class="stats">
+        <div class="stat" id="statPendBox"><b id="statPend">–</b><span>Pares por imprimir</span></div>
+        <div class="stat"><b id="statHoy">–</b><span>Registrados hoy</span></div>
+        <div class="stat"><b id="statUltimo">–</b><span>Último N° de par</span></div>
+      </div>
+
+      <div class="acciones">
+        <button class="accion prim" id="btnIrRegistro">
+          <div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3"></circle><path d="M12 3v6"></path></svg></div>
+          <div class="txt"><b>Registrar rollo</b><span>Desde el celular, en bodega</span></div>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg>
+        </button>
+        <button class="accion sec" id="btnIrHistorial">
+          <div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4E7A1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"></path><rect x="4" y="9" width="16" height="8" rx="2"></rect><path d="M7 14h10v7H7z"></path></svg></div>
+          <div class="txt"><b>Historial e impresión</b><span id="homePend">Desde el computador, en oficina</span></div>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6B655B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg>
+        </button>
+      </div>
     </div>
   </section>
 
@@ -194,39 +294,45 @@ label.campo input:focus{outline:2px solid var(--verde);border-color:var(--verde)
   <section id="sRegistro" class="pantalla">
     <div class="barra"><div class="barra-in">
       <button class="btn-volver" data-volver>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Volver</button>
-      <div class="barra-tit"><h1>Registrar rollo</h1><p>Un rollo padre = 2 rótulos</p></div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Volver</button>
+      <div class="barra-tit"><h1>Registrar rollo</h1><p>1 rollo padre = 2 rótulos</p></div>
     </div></div>
-    <div class="contenido" style="max-width:560px;margin:0 auto">
+    <div class="contenido angosto">
 
       <div class="tarjeta">
-        <div class="etq">1 · TIPO DE ROLLO</div>
+        <div class="paso"><i>1</i>Tipo de rollo</div>
         <div class="grid2">
-          <button class="tipo-btn" data-tipo="GLAZE"><span class="cond">CONFLEX GLAZE</span><small>70 g/m²</small></button>
-          <button class="tipo-btn" data-tipo="GLAZE_PS"><span class="cond">CONFLEX GLAZE PS</span><small>50 g/m²</small></button>
+          <button class="tipo-btn" data-tipo="GLAZE">
+            <span class="check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg></span>
+            <span class="cond">CONFLEX GLAZE</span><small>70 g/m²</small></button>
+          <button class="tipo-btn" data-tipo="GLAZE_PS">
+            <span class="check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg></span>
+            <span class="cond">CONFLEX GLAZE PS</span><small>50 g/m²</small></button>
         </div>
       </div>
 
       <button class="btn-escanear" id="btnEscanear">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"></path><path d="M7 8v8M10 8v8M13 8v8M16 8v8"></path></svg>
+        <div class="ico"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"></path><path d="M7 8v8M10 8v8M13 8v8M16 8v8"></path></svg></div>
         <div><b>Escanear código Billerud</b><span>Llena pedido y reel. Si no lee, se digitan abajo</span></div>
       </button>
 
       <div class="tarjeta">
-        <div class="etq">2 · DATOS DEL ROLLO PADRE</div>
+        <div class="paso"><i>2</i>Datos de la etiqueta</div>
         <div class="grid2">
           <label class="campo">Pedido Billerud<input id="fPedido" inputmode="numeric" autocomplete="off" placeholder="5076002"></label>
           <label class="campo">Reel N°<input id="fReel" inputmode="numeric" autocomplete="off" placeholder="0003"></label>
           <label class="campo">Ancho c/u (mm)<input id="fAncho" inputmode="decimal" autocomplete="off" placeholder="440"></label>
           <label class="campo">Peso total (kg)<input id="fPeso" inputmode="decimal" autocomplete="off" placeholder="593"></label>
         </div>
-        <div class="nota">Ancho y peso total se digitan de la etiqueta. El peso de cada rollo = total ÷ 2.</div>
+        <div class="nota">El peso de cada rollo se calcula solo: total ÷ 2.</div>
       </div>
 
       <div class="tarjeta resumen">
-        <div class="etq">3 · SE GENERAN 2 RÓTULOS</div>
-        <div class="res-fila"><span class="cond">Rollo -1</span><b id="resPeso1">— kg</b></div>
-        <div class="res-fila"><span class="cond">Rollo -2</span><b id="resPeso2">— kg</b></div>
+        <div class="paso"><i>3</i>Se generan 2 rótulos</div>
+        <div class="rollos-prev">
+          <div class="rollo-prev"><small>ROLLO -1</small><b id="resPeso1">— kg</b></div>
+          <div class="rollo-prev"><small>ROLLO -2</small><b id="resPeso2">— kg</b></div>
+        </div>
         <div class="nota" id="resMaterial">Selecciona el tipo de rollo.</div>
       </div>
 
@@ -238,24 +344,29 @@ label.campo input:focus{outline:2px solid var(--verde);border-color:var(--verde)
   <section id="sHistorial" class="pantalla">
     <div class="barra"><div class="barra-in">
       <button class="btn-volver" data-volver>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Volver</button>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Volver</button>
       <div class="barra-tit"><h1>Historial e impresión</h1><p id="histResumen">—</p></div>
-      <button class="btn-volver" id="btnRecargar" aria-label="Actualizar">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"></path><path d="M21 3v5h-5"></path></svg></button>
+      <button class="btn-icono" id="btnRecargar" aria-label="Actualizar" title="Actualizar">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"></path><path d="M21 3v5h-5"></path></svg></button>
     </div></div>
     <div class="contenido">
-      <div class="tarjeta" style="gap:10px">
+      <div class="tarjeta" style="gap:12px">
         <div class="toolbar">
-          <button class="tab sel" data-filtro="PENDIENTE">Pendientes</button>
-          <button class="tab" data-filtro="IMPRESO">Impresos</button>
-          <button class="tab" data-filtro="TODOS">Todos</button>
-          <input class="buscar" id="fBuscar" placeholder="Buscar N° rollo, pedido o reel" autocomplete="off">
+          <div class="segmentos">
+            <button class="tab sel" data-filtro="PENDIENTE">Pendientes</button>
+            <button class="tab" data-filtro="IMPRESO">Impresos</button>
+            <button class="tab" data-filtro="TODOS">Todos</button>
+          </div>
+          <div class="buscar-wrap">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#9A948A" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg>
+            <input class="buscar" id="fBuscar" placeholder="Buscar N° rollo, pedido o reel" autocomplete="off" aria-label="Buscar">
+          </div>
         </div>
-        <div class="toolbar" style="justify-content:space-between">
+        <div class="barra-sel">
           <button class="btn-link" id="btnSelTodos">Seleccionar todos</button>
           <button class="btn-imprimir" id="btnImprimir" disabled>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"></path><rect x="4" y="9" width="16" height="8" rx="2"></rect><path d="M7 14h10v7H7z"></path></svg>
-            <span id="txtImprimir">Imprimir (0)</span>
+            <span id="txtImprimir">Selecciona para imprimir</span>
           </button>
         </div>
       </div>
@@ -277,14 +388,14 @@ label.campo input:focus{outline:2px solid var(--verde);border-color:var(--verde)
 <div class="scanner oculto" id="scanner">
   <div class="scanner-top">
     <button class="btn-volver" id="btnCerrarScanner">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Cerrar</button>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Cerrar</button>
     <b>Escanear código Billerud</b>
   </div>
   <div id="lector"></div>
   <div class="scanner-msg" id="scannerMsg">Apunta al código de barras pequeño (11 dígitos, ej. 50760020003)</div>
 </div>
 
-<div class="cargando oculto" id="cargando">Cargando…</div>
+<div class="cargando oculto" id="cargando"><div class="spinner"></div>Cargando…</div>
 
 <div id="zonaImpresion"></div>
 
@@ -322,6 +433,18 @@ function kg(n) {
 function fechaCorta(f) {
   const m = String(f || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
   return m ? `${m[3]}/${m[2]}/${m[1]}` : String(f || '');
+}
+function hoyISO() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+function primerNombre(n) {
+  const p = String(n || '').trim().split(/\s+/)[0] || '';
+  return p.charAt(0).toUpperCase() + p.slice(1).toLowerCase();
+}
+function iniciales(n) {
+  const p = String(n || '').trim().split(/\s+/);
+  return ((p[0] || '').charAt(0) + (p[1] || '').charAt(0)).toUpperCase();
 }
 function cargando(on) { $('cargando').classList.toggle('oculto', !on); }
 
@@ -378,29 +501,36 @@ document.querySelectorAll('[data-volver]').forEach((b) => b.addEventListener('cl
 
 function irHome() {
   mostrar('sHome');
-  $('chipUsuario').textContent = sesion.nombre;
-  $('btnIrRegistro').classList.toggle('oculto', !['bodega', 'admin'].includes(sesion.rol));
-  actualizarPendientesHome();
+  $('avatarUsuario').textContent = iniciales(sesion.nombre);
+  $('avatarUsuario').title = sesion.nombre;
+  $('saludoTxt').textContent = 'Hola, ' + primerNombre(sesion.nombre);
+  $('fechaHoy').textContent = new Date().toLocaleDateString('es-CO', { weekday: 'long', day: 'numeric', month: 'long' });
+  actualizarHome();
 }
 
-async function actualizarPendientesHome() {
-  $('homePend').textContent = 'Cargando…';
+async function actualizarHome() {
   try {
     const j = await api('historial');
     pares = j.pares || [];
-    const n = pares.filter((p) => p.estado === 'PENDIENTE').length;
-    $('homePend').innerHTML = n
-      ? `<span class="badge pend">${n} ${n === 1 ? 'par' : 'pares'} por imprimir</span>`
-      : 'Todo impreso';
+    const pend = pares.filter((p) => p.estado === 'PENDIENTE').length;
+    const hoy = hoyISO();
+    const hoyN = pares.filter((p) => p.fecha === hoy).length;
+    $('statPend').textContent = pend;
+    $('statPendBox').classList.toggle('alerta', pend > 0);
+    $('statHoy').textContent = hoyN;
+    $('statUltimo').textContent = pares.length ? pares[0].id : '—';
+    $('homePend').innerHTML = pend
+      ? `<span class="badge pend">${pend} ${pend === 1 ? 'par' : 'pares'} por imprimir</span>`
+      : 'Desde el computador, en oficina';
   } catch (e) {
-    $('homePend').textContent = 'Ver registros e imprimir rótulos';
+    $('statPend').textContent = '–';
   }
 }
 
 $('btnIrRegistro').addEventListener('click', () => { mostrar('sRegistro'); actualizarResumen(); });
 $('btnIrHistorial').addEventListener('click', () => { mostrar('sHistorial'); cargarHistorial(); });
 $('btnSalir').addEventListener('click', async () => {
-  if (await preguntar('Salir', '¿Cerrar sesión?')) cerrarSesion();
+  if (await preguntar('Cerrar sesión', `¿Salir de la cuenta de <b>${esc(sesion.nombre)}</b>?`)) cerrarSesion();
 });
 
 // =====================================================================
@@ -473,7 +603,7 @@ function actualizarResumen() {
   $('resPeso2').textContent = c;
   if (tipoSel) {
     const t = TIPOS[tipoSel];
-    $('resMaterial').textContent = `${t.material} ${t.gramaje} g/m²` + (ancho > 0 ? ` · ${ancho} mm` : '') + ' · El número se asigna al registrar';
+    $('resMaterial').textContent = `${t.material} ${t.gramaje} g/m²` + (ancho > 0 ? ` · ${ancho} mm` : '') + ' · El número se asigna al registrar.';
   } else {
     $('resMaterial').textContent = 'Selecciona el tipo de rollo.';
   }
@@ -506,10 +636,12 @@ $('btnRegistrar').addEventListener('click', async () => {
   const pesoC = kg(Math.round((datos.pesoTotal / 2) * 10) / 10);
 
   const ok = await preguntar('¿Registrar este par de rollos?',
-    `<b>${esc(t.material)} ${t.gramaje} g/m²</b><br>
-     Pedido ${esc(datos.pedido)} · Reel ${esc(datos.reel.padStart(4, '0'))}<br>
-     Ancho ${esc(datos.ancho)} mm · Total ${kg(datos.pesoTotal)} kg<br>
-     <b>2 rollos de ${pesoC} kg</b>`);
+    `<div class="det">
+       <b>${esc(t.material)} · ${t.gramaje} g/m²</b>
+       <span>Pedido ${esc(datos.pedido)} · Reel ${esc(datos.reel.padStart(4, '0'))}</span>
+       <span>Ancho ${esc(datos.ancho)} mm · Total ${kg(datos.pesoTotal)} kg</span>
+     </div>
+     <div style="margin-top:10px">Salen <b>2 rollos de ${pesoC} kg</b>.</div>`);
   if (!ok) return;
 
   await enviarRegistro(datos);
@@ -525,15 +657,18 @@ async function enviarRegistro(datos) {
     if (j.duplicado) {
       const d = j.duplicado;
       const seguir = await preguntar('Rollo ya registrado',
-        `Este pedido y reel ya se registró como <b>${esc(d.id)}</b> el ${esc(fechaCorta(d.fecha))} ${esc(d.hora)} por ${esc(d.por)}.<br><br>¿Registrarlo de nuevo con otro número?`);
+        `Este pedido y reel ya se registró como <b>${esc(d.id)}</b> el ${esc(fechaCorta(d.fecha))} a las ${esc(d.hora)} (${esc(d.por)}).<br><br>¿Registrarlo de nuevo con otro número?`);
       if (seguir) await enviarRegistro({ ...datos, forzar: true });
       return;
     }
 
     const p = j.par;
     await avisar('Registrado',
-      `Se generaron <b class="cond" style="font-size:22px">${esc(p.rollo1)}</b> y <b class="cond" style="font-size:22px">${esc(p.rollo2)}</b><br>
-       ${kg(p.pesoRollo)} kg cada uno.<br><br>Quedan <b>pendientes de imprimir</b> en el historial.`,
+      `<div class="rollos-prev" style="margin-bottom:10px">
+         <div class="rollo-prev"><small>ROLLO 1</small><b>${esc(p.rollo1)}</b></div>
+         <div class="rollo-prev"><small>ROLLO 2</small><b>${esc(p.rollo2)}</b></div>
+       </div>
+       ${kg(p.pesoRollo)} kg cada uno. Quedan <b>pendientes de imprimir</b>.`,
       'Registrar otro');
     ['fPedido', 'fReel', 'fPeso'].forEach((id) => { $(id).value = ''; });
     actualizarResumen();
@@ -620,14 +755,14 @@ $('fBuscar').addEventListener('input', pintarLista);
 $('btnRecargar').addEventListener('click', cargarHistorial);
 
 async function cargarHistorial() {
-  $('lista').innerHTML = '<div class="vacio">Cargando…</div>';
+  $('lista').innerHTML = '<div class="vacio"><div class="spinner" style="margin:0 auto 10px"></div>Cargando…</div>';
   try {
     const j = await api('historial');
     pares = j.pares || [];
     seleccion.clear();
     pintarLista();
   } catch (e) {
-    $('lista').innerHTML = `<div class="vacio">${esc(e.message)}</div>`;
+    $('lista').innerHTML = `<div class="vacio"><b>No se pudo cargar</b>${esc(e.message)}</div>`;
   }
 }
 
@@ -646,7 +781,9 @@ function pintarLista() {
 
   const lista = paresFiltrados();
   if (!lista.length) {
-    $('lista').innerHTML = `<div class="vacio">${filtro === 'PENDIENTE' ? 'No hay rótulos pendientes por imprimir.' : 'Sin registros.'}</div>`;
+    $('lista').innerHTML = filtro === 'PENDIENTE' && !$('fBuscar').value.trim()
+      ? '<div class="vacio"><b>Todo al día</b>No hay rótulos pendientes por imprimir.</div>'
+      : '<div class="vacio"><b>Sin resultados</b>No hay registros con ese filtro.</div>';
   } else {
     $('lista').innerHTML = lista.map((p) => {
       const sel = seleccion.has(String(p.id));
@@ -654,12 +791,16 @@ function pintarLista() {
         ? `<span class="badge imp">Impreso${p.vecesImpreso > 1 ? ' ×' + p.vecesImpreso : ''}</span>`
         : '<span class="badge pend">Pendiente</span>';
       return `<label class="item${sel ? ' sel' : ''}">
-        <input type="checkbox" data-id="${esc(p.id)}"${sel ? ' checked' : ''}>
+        <input type="checkbox" data-id="${esc(p.id)}"${sel ? ' checked' : ''} aria-label="Seleccionar par ${esc(p.id)}">
         <div class="item-c">
-          <div class="item-top"><span class="cond">${esc(p.id)} <small>-1 y -2</small></span>${badge}</div>
-          <div class="item-mat">${esc(p.material)} ${esc(p.gramaje)} · ${esc(p.ancho)} mm · ${kg(p.pesoRollo)} kg c/u</div>
+          <div class="item-num">${esc(p.id)}<small>-1 y -2</small></div>
+          <div class="item-mat">${esc(p.material)} ${esc(p.gramaje)} · ${esc(p.ancho)} mm</div>
           <div class="item-meta">Pedido ${esc(p.pedido)} · Reel ${esc(p.reel)} · ${esc(fechaCorta(p.fecha))} ${esc(p.hora)} · ${esc(p.registradoPor)}</div>
           ${p.estado === 'IMPRESO' ? `<div class="item-meta">Impreso ${esc(p.fechaImpresion)} · ${esc(p.impresoPor)}</div>` : ''}
+        </div>
+        <div class="item-der">
+          ${badge}
+          <div class="item-peso">${kg(p.pesoRollo)} kg <small>c/u</small></div>
         </div>
       </label>`;
     }).join('');
@@ -676,10 +817,11 @@ function pintarLista() {
 function actualizarBotonImprimir() {
   const n = seleccion.size;
   $('btnImprimir').disabled = n === 0;
-  $('txtImprimir').textContent = n ? `Imprimir (${n} ${n === 1 ? 'hoja' : 'hojas'})` : 'Imprimir (0)';
+  $('txtImprimir').textContent = n ? `Imprimir ${n} ${n === 1 ? 'hoja' : 'hojas'}` : 'Selecciona para imprimir';
   const visibles = paresFiltrados();
   const todos = visibles.length && visibles.every((p) => seleccion.has(String(p.id)));
   $('btnSelTodos').textContent = todos ? 'Quitar selección' : 'Seleccionar todos';
+  $('btnSelTodos').classList.toggle('oculto', !visibles.length);
 }
 
 $('btnSelTodos').addEventListener('click', () => {

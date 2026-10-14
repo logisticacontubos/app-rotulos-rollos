@@ -124,7 +124,7 @@ function numero(valor) {
 
 // ---------------------------------------------------------------------
 // Usuarios — hoja "Usuarios": PIN | Nombre | Rol | Activo
-// Roles: bodega (registra + imprime), oficina (imprime), admin (todo)
+// Todos los usuarios activos pueden registrar e imprimir (el rol no restringe)
 // ---------------------------------------------------------------------
 async function validarUsuario(pin) {
   if (!pin) throw new Error('Sesión vencida. Ingresa tu PIN de nuevo.');
@@ -141,8 +141,6 @@ async function validarUsuario(pin) {
 // Acciones
 // ---------------------------------------------------------------------
 async function registrar(usuario, d) {
-  if (!['bodega', 'admin'].includes(usuario.rol)) throw new Error('Tu usuario no tiene permiso para registrar rollos.');
-
   const tipo = TIPOS[d.tipo];
   if (!tipo) throw new Error('Selecciona el tipo de rollo.');
 
