@@ -41,6 +41,11 @@ button{cursor:pointer}
 .btn-volver:hover{background:var(--suave)}
 .btn-icono{width:42px;height:42px;border-radius:12px;border:1px solid var(--borde);background:var(--blanco);display:flex;align-items:center;justify-content:center;transition:background .15s}
 .btn-icono:hover{background:var(--suave)}
+.btn-barra{height:42px;padding:0 13px;border-radius:12px;border:1px solid var(--borde);background:var(--blanco);display:flex;align-items:center;gap:6px;font-weight:600;font-size:14px;flex-shrink:0;transition:background .15s}
+.btn-barra:hover{background:var(--suave)}
+.btn-barra.salir{color:var(--no);border-color:#F1C9C9}
+.btn-barra.salir:hover{background:#FDF1F1}
+.btn-barra.girando svg{animation:girar .7s linear infinite}
 .usuario{display:flex;align-items:center;gap:8px}
 .avatar{width:36px;height:36px;border-radius:50%;background:var(--verde-claro);color:var(--verde-prof);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
 
@@ -166,6 +171,10 @@ label.campo input:focus{outline:none;border-color:var(--verde);background:var(--
   .barra-in{padding:10px 14px}
   .contenido{padding:16px}
   .ocultar-movil{display:none!important}
+  .btn-barra{width:42px;padding:0;justify-content:center}
+  .btn-barra span{display:none}
+  .barra-in{gap:8px}
+  .btn-volver{padding:0 10px 0 6px}
 }
 
 /* ---------- Modal ---------- */
@@ -256,12 +265,9 @@ label.campo input:focus{outline:none;border-color:var(--verde);background:var(--
       <div class="sep ocultar-movil"></div>
       <div class="barra-tit ocultar-movil"><h1>Rótulos de Rollos</h1></div>
       <div style="flex:1" class=""></div>
-      <div class="usuario">
-        <div class="avatar" id="avatarUsuario"></div>
-        <button class="btn-icono" id="btnSalir" aria-label="Cerrar sesión" title="Cerrar sesión">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path></svg>
-        </button>
-      </div>
+      <div class="avatar" id="avatarUsuario"></div>
+      <button class="btn-barra" data-actualizar title="Actualizar" aria-label="Actualizar"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"></path><path d="M21 3v5h-5"></path></svg><span>Actualizar</span></button>
+      <button class="btn-barra salir" data-salir title="Salir" aria-label="Salir"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path></svg><span>Salir</span></button>
     </div></div>
     <div class="contenido">
       <div class="saludo">
@@ -296,6 +302,8 @@ label.campo input:focus{outline:none;border-color:var(--verde);background:var(--
       <button class="btn-volver" data-volver>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Volver</button>
       <div class="barra-tit"><h1>Registrar rollo</h1><p>1 rollo padre = 2 rótulos</p></div>
+      <button class="btn-barra" data-actualizar title="Actualizar" aria-label="Actualizar"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"></path><path d="M21 3v5h-5"></path></svg><span>Actualizar</span></button>
+      <button class="btn-barra salir" data-salir title="Salir" aria-label="Salir"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path></svg><span>Salir</span></button>
     </div></div>
     <div class="contenido angosto">
 
@@ -346,8 +354,8 @@ label.campo input:focus{outline:none;border-color:var(--verde);background:var(--
       <button class="btn-volver" data-volver>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>Volver</button>
       <div class="barra-tit"><h1>Historial e impresión</h1><p id="histResumen">—</p></div>
-      <button class="btn-icono" id="btnRecargar" aria-label="Actualizar" title="Actualizar">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"></path><path d="M21 3v5h-5"></path></svg></button>
+      <button class="btn-barra" data-actualizar title="Actualizar" aria-label="Actualizar"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"></path><path d="M21 3v5h-5"></path></svg><span>Actualizar</span></button>
+      <button class="btn-barra salir" data-salir title="Salir" aria-label="Salir"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path></svg><span>Salir</span></button>
     </div></div>
     <div class="contenido">
       <div class="tarjeta" style="gap:12px">
@@ -529,9 +537,30 @@ async function actualizarHome() {
 
 $('btnIrRegistro').addEventListener('click', () => { mostrar('sRegistro'); actualizarResumen(); });
 $('btnIrHistorial').addEventListener('click', () => { mostrar('sHistorial'); cargarHistorial(); });
-$('btnSalir').addEventListener('click', async () => {
+document.querySelectorAll('[data-salir]').forEach((b) => b.addEventListener('click', async () => {
   if (await preguntar('Cerrar sesión', `¿Salir de la cuenta de <b>${esc(sesion.nombre)}</b>?`)) cerrarSesion();
-});
+}));
+
+document.querySelectorAll('[data-actualizar]').forEach((b) => b.addEventListener('click', async () => {
+  const activa = (document.querySelector('.pantalla.activa') || {}).id;
+  b.classList.add('girando');
+  try {
+    if (activa === 'sHome') await actualizarHome();
+    else if (activa === 'sHistorial') await cargarHistorial();
+    else if (activa === 'sRegistro') await limpiarRegistro();
+  } finally {
+    b.classList.remove('girando');
+  }
+}));
+
+async function limpiarRegistro() {
+  const hayDatos = ['fPedido', 'fReel', 'fAncho', 'fPeso'].some((id) => $(id).value.trim()) || tipoSel;
+  if (hayDatos && !(await preguntar('Actualizar', '¿Borrar los datos digitados y empezar de nuevo?'))) return;
+  ['fPedido', 'fReel', 'fAncho', 'fPeso'].forEach((id) => { $(id).value = ''; });
+  tipoSel = null;
+  document.querySelectorAll('.tipo-btn').forEach((x) => x.classList.remove('sel'));
+  actualizarResumen();
+}
 
 // =====================================================================
 // Login
@@ -615,9 +644,9 @@ function validarFormulario() {
   if (!/^\d{5,8}(-\d{1,2})?$/.test(pedido)) return 'Pedido inválido. Ej: 5076002';
   if (!/^\d{1,5}$/.test($('fReel').value.trim())) return 'Reel inválido. Ej: 0003';
   const ancho = num($('fAncho').value);
-  if (!(ancho >= 100 && ancho <= 3000)) return 'Ancho inválido (entre 100 y 3000 mm).';
+  if (!(ancho > 0)) return 'Digita el ancho.';
   const peso = num($('fPeso').value);
-  if (!(peso >= 100 && peso <= 1500)) return 'Peso total inválido (entre 100 y 1500 kg).';
+  if (!(peso > 0)) return 'Digita el peso total.';
   return null;
 }
 
@@ -752,7 +781,6 @@ document.querySelectorAll('.tab').forEach((b) => b.addEventListener('click', () 
   pintarLista();
 }));
 $('fBuscar').addEventListener('input', pintarLista);
-$('btnRecargar').addEventListener('click', cargarHistorial);
 
 async function cargarHistorial() {
   $('lista').innerHTML = '<div class="vacio"><div class="spinner" style="margin:0 auto 10px"></div>Cargando…</div>';

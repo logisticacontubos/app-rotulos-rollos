@@ -152,10 +152,10 @@ async function registrar(usuario, d) {
   const reel = reelTxt.padStart(4, '0');
 
   const ancho = numero(d.ancho);
-  if (!(ancho >= 100 && ancho <= 3000)) throw new Error('Ancho inválido (entre 100 y 3000 mm).');
+  if (!(ancho > 0)) throw new Error('Digita el ancho.');
 
   const pesoTotal = numero(d.pesoTotal);
-  if (!(pesoTotal >= 100 && pesoTotal <= 1500)) throw new Error('Peso total inválido (entre 100 y 1500 kg).');
+  if (!(pesoTotal > 0)) throw new Error('Digita el peso total.');
 
   const filas = await leer('Rollos!A2:T');
 
