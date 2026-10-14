@@ -144,6 +144,10 @@ label.campo input:focus{outline:none;border-color:var(--verde);background:var(--
 .btn-imprimir{height:46px;padding:0 18px;border:none;border-radius:12px;background:var(--verde-osc);color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;transition:background .15s}
 .btn-imprimir:hover:not(:disabled){background:#43691A}
 .btn-imprimir:disabled{background:#B9C6A6;cursor:default}
+.acciones-sel{display:flex;gap:8px;flex-wrap:wrap}
+.btn-sec{height:46px;padding:0 16px;border:1.5px solid var(--verde-osc);border-radius:12px;background:var(--blanco);color:var(--verde-osc);font-weight:700;font-size:15px;display:flex;align-items:center;gap:6px;transition:background .15s}
+.btn-sec:hover:not(:disabled){background:var(--verde-claro)}
+.btn-sec:disabled{border-color:#C9D3BB;color:#A9B69A;cursor:default}
 .btn-link{background:none;border:none;color:var(--verde-osc);font-weight:700;font-size:14px;padding:8px 4px}
 .lista{display:flex;flex-direction:column;gap:10px}
 .item{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:var(--blanco);border-radius:16px;padding:14px 16px;box-shadow:var(--sombra);cursor:pointer;border:2px solid transparent;transition:border-color .15s, background .15s}
@@ -372,10 +376,16 @@ label.campo input:focus{outline:none;border-color:var(--verde);background:var(--
         </div>
         <div class="barra-sel">
           <button class="btn-link" id="btnSelTodos">Seleccionar todos</button>
+          <div class="acciones-sel">
+          <button class="btn-sec" id="btnMarcar" disabled>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>
+            <span>Marcar como impreso</span>
+          </button>
           <button class="btn-imprimir" id="btnImprimir" disabled>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"></path><rect x="4" y="9" width="16" height="8" rx="2"></rect><path d="M7 14h10v7H7z"></path></svg>
             <span id="txtImprimir">Selecciona para imprimir</span>
           </button>
+          </div>
         </div>
       </div>
       <div class="lista" id="lista"></div>
@@ -845,6 +855,9 @@ function pintarLista() {
 function actualizarBotonImprimir() {
   const n = seleccion.size;
   $('btnImprimir').disabled = n === 0;
+  const pendSel = pares.filter((p) => seleccion.has(String(p.id)) && p.estado === 'PENDIENTE').length;
+  $('btnMarcar').disabled = pendSel === 0;
+  $('btnMarcar').querySelector('span').textContent = pendSel ? `Marcar como impreso (${pendSel})` : 'Marcar como impreso';
   $('txtImprimir').textContent = n ? `Imprimir ${n} ${n === 1 ? 'hoja' : 'hojas'}` : 'Selecciona para imprimir';
   const visibles = paresFiltrados();
   const todos = visibles.length && visibles.every((p) => seleccion.has(String(p.id)));
@@ -857,6 +870,23 @@ $('btnSelTodos').addEventListener('click', () => {
   const todos = visibles.length && visibles.every((p) => seleccion.has(String(p.id)));
   visibles.forEach((p) => { if (todos) seleccion.delete(String(p.id)); else seleccion.add(String(p.id)); });
   pintarLista();
+});
+
+$('btnMarcar').addEventListener('click', async () => {
+  const ids = pares.filter((p) => seleccion.has(String(p.id)) && p.estado === 'PENDIENTE').map((p) => String(p.id));
+  if (!ids.length) return;
+  const ok = await preguntar('Marcar como impreso',
+    `¿Confirmas que ${ids.length === 1 ? 'el par <b>' + esc(ids[0]) + '</b> ya está impreso' : 'los <b>' + ids.length + ' pares</b> seleccionados ya están impresos'}?`);
+  if (!ok) return;
+  cargando(true);
+  try {
+    await api('marcarImpreso', { ids });
+    cargando(false);
+    await cargarHistorial();
+  } catch (e) {
+    cargando(false);
+    avisar('No se pudo marcar como impreso', esc(e.message));
+  }
 });
 
 // =====================================================================
